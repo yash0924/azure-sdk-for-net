@@ -39,6 +39,7 @@ steps:
       }
 
       $mergedConfigurationSerialized = $mergedConfiguration | ConvertTo-Json -Compress
+      Write-Host $mergedConfigurationSerialized
       Write-Host "##vso[task.setvariable variable=SubscriptionConfiguration;]$mergedConfigurationSerialized"
 
     displayName: Build Test Resource Configuration
