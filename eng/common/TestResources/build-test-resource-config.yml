@@ -32,10 +32,13 @@ steps:
       displayName: Test Config
 
   - pwsh: |
-      foreach ($c in $(SubscriptionConfigurationRaw)) {
+      $j = @'
+        $(SubscriptionConfigurationRaw)
+      '@ | ConvertFrom-Json -AsHashtable
+      foreach ($c in $j.GetEnumerator()) {
         Write-Host $c
       }
-      Write-Host $c
+      Write-Host $j
     displayName: Test Print
 
   - pwsh: |
