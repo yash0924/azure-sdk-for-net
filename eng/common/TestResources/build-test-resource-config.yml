@@ -11,9 +11,15 @@ steps:
 
 
       Write-Host ($subscriptionConfiguration | ConvertTo-Json -Compress)
-      Write-Host $subscriptionConfiguration[1].Phone[0]
-      Write-Host $subscriptionConfiguration[1].Phone[1]
-      Write-Host $subscriptionConfiguration[1].Phone[2]
+
+      Write-Host $subscriptionConfiguration[0]
+      Write-Host $subscriptionConfiguration[0].SubscriptionId
+      Write-Host $subscriptionConfiguration[0].SubscriptionId[0]
+      Write-Host $subscriptionConfiguration[0].SubscriptionId[1]
+      Write-Host $subscriptionConfiguration[0].SubscriptionId[2]
+      Write-Host $subscriptionConfiguration[0].SubscriptionId[3]
+      Write-Host $subscriptionConfiguration[0].SubscriptionId[4]
+      Write-Host $subscriptionConfiguration[0].SubscriptionId[5]
 
       if ($subscriptionConfiguration -isnot [Array]) {
           $serialized = $subscriptionConfiguration | ConvertTo-Json -Compress
