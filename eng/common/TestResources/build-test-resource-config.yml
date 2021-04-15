@@ -36,7 +36,7 @@ steps:
         $(SubscriptionConfigurationRaw)
       '@ | ConvertFrom-Json -AsHashtable
       foreach ($c in $j.GetEnumerator()) {
-        Write-Host $c
+        Write-Host $c.Name $c.Value.GetType()
       }
       Write-Host $j
     displayName: Test Print
