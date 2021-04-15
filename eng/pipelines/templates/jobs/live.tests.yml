@@ -92,6 +92,7 @@ jobs:
       - template: /eng/common/TestResources/build-test-resource-config.yml
         parameters:
           SubscriptionConfiguration: ${{ parameters.CloudConfig.SubscriptionConfiguration }}
+          SubscriptionConfigurations: ${{ parameters.CloudConfig.SubscriptionConfigurations }}
 
       - template: /eng/common/TestResources/deploy-test-resources.yml
         parameters:
