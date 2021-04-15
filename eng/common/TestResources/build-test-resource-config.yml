@@ -13,8 +13,18 @@ steps:
 
   - ${{ each config in parameters.SubscriptionConfiguration }}:
     - pwsh: |
-        Write-Host "[task.setvariable variable=SubscriptionConfigurationRaw;]$(SubscriptionConfigurationRaw),'${{ config }}'"
-        Write-Host "##vso[task.setvariable variable=SubscriptionConfigurationRaw;]$(SubscriptionConfigurationRaw),'${{ config }}'"
+        $previous = @"
+          $(SubscriptionConfigurationRaw)
+        @" | ConvertFrom-Json -AsHashtable
+        $current = @"
+          ${{ config }}
+        @" | ConvertFrom-Json -AsHashtable
+
+        Write-Host ($previous | ConvertTo-Json -Compress)
+        $raw = ($current | ConvertTo-Json -Compress)
+
+        Write-Host "[task.setvariable variable=SubscriptionConfigurationRaw;]$raw"
+        Write-Host "##vso[task.setvariable variable=SubscriptionConfigurationRaw;]$raw"
       displayName: Test Config
 
   - pwsh: |
