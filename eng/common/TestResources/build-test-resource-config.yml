@@ -13,12 +13,16 @@ steps:
 
   - ${{ each config in parameters.SubscriptionConfiguration }}:
     - pwsh: |
-        $previous = @"
-          $(SubscriptionConfigurationRaw)
-        @" | ConvertFrom-Json -AsHashtable
-        $current = @"
+        Write-Host @'
           ${{ config }}
-        @" | ConvertFrom-Json -AsHashtable
+        '@
+
+        $previous = @'
+          $(SubscriptionConfigurationRaw)
+        '@ | ConvertFrom-Json -AsHashtable
+        $current = @'
+          ${{ config }}
+        '@ | ConvertFrom-Json -AsHashtable
 
         Write-Host ($previous | ConvertTo-Json -Compress)
         $raw = ($current | ConvertTo-Json -Compress)
