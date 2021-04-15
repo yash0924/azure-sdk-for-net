@@ -24,34 +24,6 @@ steps:
 
     - ${{ each config in parameters.SubscriptionConfigurations }}:
       - pwsh: |
-          Write-Host @'
-            ${{ config }}
-          '@
-
-          $previous = @'
-            $(SubscriptionConfiguration)
-          '@ | ConvertFrom-Json -AsHashtable
-          $current = @'
-            ${{ config }}
-          '@ | ConvertFrom-Json -AsHashtable
-
-          Write-Host ($previous | ConvertTo-Json -Compress)
-          $raw = ($current | ConvertTo-Json -Compress)
-
-          Write-Host "[task.setvariable variable=SubscriptionConfiguration;]$raw"
-        displayName: Test Config
-
-      - pwsh: |
-          $j = @'
-            $(SubscriptionConfiguration)
-          '@ | ConvertFrom-Json -AsHashtable
-          foreach ($c in $j.GetEnumerator()) {
-            Write-Host $c.Name $c.Value.GetType()
-          }
-          Write-Host $j
-        displayName: Test Print
-
-      - pwsh: |
           $config = @'
             $(SubscriptionConfiguration)
           '@ | ConvertFrom-Json -AsHashtable
