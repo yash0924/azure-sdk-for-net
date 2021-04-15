@@ -18,7 +18,7 @@ steps:
 
   - ${{ if parameters.SubscriptionConfigurations }}:
     - pwsh: |
-        Write-Host "##vso[task.setvariable variable=SubscriptionConfiguration;]"
+        Write-Host "##vso[task.setvariable variable=SubscriptionConfiguration;]{}"
       displayName: Initialize SubscriptionConfiguration variable
       condition: eq(variables['SubscriptionConfiguration'], '')
 
