@@ -28,7 +28,7 @@ steps:
       displayName: Test Config
 
   - pwsh: |
-      foreach ($c in $(SubscriptionConfigurationRaw) {
+      foreach ($c in $(SubscriptionConfigurationRaw)) {
         Write-Host $c
       }
       Write-Host $c
