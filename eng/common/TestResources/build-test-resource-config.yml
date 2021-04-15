@@ -17,7 +17,10 @@ steps:
       displayName: Test Config
 
   - pwsh: |
-      Write-Host '$(SubscriptionConfigurationRaw)'
+      foreach ($c in $(SubscriptionConfigurationRaw) {
+        Write-Host $c
+      }
+      Write-Host $c
     displayName: Test Print
 
   - pwsh: |
