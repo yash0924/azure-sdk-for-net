@@ -13,6 +13,7 @@ steps:
 
   - ${{ each config in parameters.SubscriptionConfiguration }}:
     - pwsh: |
+        Write-Host "[task.setvariable variable=SubscriptionConfigurationRaw;]$(SubscriptionConfigurationRaw),'${{ config }}'"
         Write-Host "##vso[task.setvariable variable=SubscriptionConfigurationRaw;]$(SubscriptionConfigurationRaw),'${{ config }}'"
       displayName: Test Config
 
