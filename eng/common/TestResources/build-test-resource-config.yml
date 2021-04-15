@@ -8,7 +8,8 @@ steps:
       "@ | ConvertFrom-Json -AsHashtable;
 
       if ($subscriptionConfiguration -isnot [Array]) {
-          Write-Host "##vso[task.setvariable variable=SubscriptionConfiguration;]${{ parameters.SubscriptionConfiguration }}"
+          $serialized = $subscriptionConfiguration | ConvertTo-Json -Compress
+          Write-Host "##vso[task.setvariable variable=SubscriptionConfiguration;]$serialized"
           exit
       }
 
