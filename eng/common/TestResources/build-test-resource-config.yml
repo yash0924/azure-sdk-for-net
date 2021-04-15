@@ -4,7 +4,7 @@ parameters:
 steps:
   - pwsh: |
       $subscriptionConfiguration = @"
-        ${{ parameters.SubscriptionConfiguration }}
+        ${{ convertToJson(parameters.SubscriptionConfiguration) }}
       "@ | ConvertFrom-Json -AsHashtable;
 
       if ($subscriptionConfiguration -isnot [Array]) {
