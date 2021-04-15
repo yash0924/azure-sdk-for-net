@@ -3,12 +3,14 @@ parameters:
 
 steps:
   - pwsh: |
+      Write-Host '${{ convertToJson(parameters.SubscriptionConfiguration) }}'
+
       $subscriptionConfiguration = @"
         ${{ convertToJson(parameters.SubscriptionConfiguration) }}
       "@ | ConvertFrom-Json -AsHashtable;
 
 
-      Write-Host $subscriptionConfiguration | ConvertTo-Json -Compress
+      Write-Host ($subscriptionConfiguration | ConvertTo-Json -Compress)
       Write-Host $subscriptionConfiguration[1].Phone[0]
       Write-Host $subscriptionConfiguration[1].Phone[1]
       Write-Host $subscriptionConfiguration[1].Phone[2]
