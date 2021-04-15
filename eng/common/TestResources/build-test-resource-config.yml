@@ -2,78 +2,74 @@ parameters:
   SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
 
 steps:
-  - pwsh: |
-      Write-Host "##vso[task.setvariable variable=SubscriptionConfigurationRaw;]"
-    displayName: Initialize project list variable
-
-  - ${{ each config in parameters.SubscriptionConfiguration }}:
+  - ${{ if parameters.SubscriptionConfiguration }}:
     - pwsh: |
-        Write-Host '${{ config }}'
-      displayName: Test
+        $config = @'
+          $(SubscriptionConfiguration)
+        '@ | ConvertFrom-Json -AsHashtable
+        $serialized = $config | ConvertTo-Json -Compress
+        Write-Host "##vso[task.setvariable variable=SubscriptionConfiguration;$serialized]"
+      displayName: Initialize SubscriptionConfiguration variable
 
-  - ${{ each config in parameters.SubscriptionConfiguration }}:
+  - ${{ if parameters.SubscriptionConfigurations }}:
     - pwsh: |
-        Write-Host @'
-          ${{ config }}
-        '@
+        Write-Host "##vso[task.setvariable variable=SubscriptionConfiguration;]"
+      displayName: Initialize SubscriptionConfiguration variable
+      condition: eq(variables['SubscriptionConfiguration'], '')
 
-        $previous = @'
-          $(SubscriptionConfigurationRaw)
+    - ${{ each config in parameters.SubscriptionConfigurations }}:
+      - pwsh: |
+          Write-Host @'
+            ${{ config }}
+          '@
+
+          $previous = @'
+            $(SubscriptionConfiguration)
+          '@ | ConvertFrom-Json -AsHashtable
+          $current = @'
+            ${{ config }}
+          '@ | ConvertFrom-Json -AsHashtable
+
+          Write-Host ($previous | ConvertTo-Json -Compress)
+          $raw = ($current | ConvertTo-Json -Compress)
+
+          Write-Host "[task.setvariable variable=SubscriptionConfiguration;]$raw"
+        displayName: Test Config
+
+    - pwsh: |
+        $j = @'
+          $(SubscriptionConfiguration)
         '@ | ConvertFrom-Json -AsHashtable
-        $current = @'
+        foreach ($c in $j.GetEnumerator()) {
+          Write-Host $c.Name $c.Value.GetType()
+        }
+        Write-Host $j
+      displayName: Test Print
+
+    - pwsh: |
+        $config = @'
+          $(SubscriptionConfiguration)
+        '@ | ConvertFrom-Json -AsHashtable
+        $addToConfig = @'
           ${{ config }}
         '@ | ConvertFrom-Json -AsHashtable
 
-        Write-Host ($previous | ConvertTo-Json -Compress)
-        $raw = ($current | ConvertTo-Json -Compress)
-
-        Write-Host "[task.setvariable variable=SubscriptionConfigurationRaw;]$raw"
-        Write-Host "##vso[task.setvariable variable=SubscriptionConfigurationRaw;]$raw"
-      displayName: Test Config
-
-  - pwsh: |
-      $j = @'
-        $(SubscriptionConfigurationRaw)
-      '@ | ConvertFrom-Json -AsHashtable
-      foreach ($c in $j.GetEnumerator()) {
-        Write-Host $c.Name $c.Value.GetType()
-      }
-      Write-Host $j
-    displayName: Test Print
-
-  - pwsh: |
-      $previous = @'
-        $(SubscriptionConfigurationRaw)
-      '@ | ConvertFrom-Json -AsHashtable
-      $current = @'
-        ${{ config }}
-      '@ | ConvertFrom-Json -AsHashtable
-
-      if ($subscriptionConfiguration -isnot [Array]) {
-          $serialized = $subscriptionConfiguration | ConvertTo-Json -Compress
-          Write-Host "##vso[task.setvariable variable=SubscriptionConfiguration;]$serialized"
-          exit
-      }
-
-      $mergedConfiguration = @{}
-      foreach ($config in $subscriptionConfiguration) {
-        foreach ($pair in $config.GetEnumerator()) {
+        foreach ($pair in $addToConfig.GetEnumerator()) {
           if ($pair.Value -is [Hashtable]) {
-            if (!$mergedConfiguration.ContainsKey($pair.Name)) {
-              $mergedConfiguration[$pair.Name] = $pair.Value
+            if (!$config.ContainsKey($pair.Name)) {
+              $config[$pair.Name] = $pair.Value
             } else {
               foreach($nestedPair in $pair.Value.GetEnumerator()) {
-                $mergedConfiguration[$pair.Name][$nestedPair.Name] = $nestedPair.Value
+                $config[$pair.Name][$nestedPair.Name] = $nestedPair.Value
               }
             }
           } else {
-            $mergedConfiguration[$pair.Name] = $pair.Value
+            $config[$pair.Name] = $pair.Value
           }
         }
-      }
 
-      $mergedConfigurationSerialized = $mergedConfiguration | ConvertTo-Json -Compress
-      Write-Host $mergedConfigurationSerialized
-      Write-Host "##vso[task.setvariable variable=SubscriptionConfiguration;]$mergedConfigurationSerialized"
+        $serialized = $config | ConvertTo-Json -Compress
+        Write-Host $serialized
+        Write-Host "##vso[task.setvariable variable=SubscriptionConfiguration;]$serialized"
 
-    displayName: Build Test Resource Configuration
+      displayName: Merge Test Resource Configurations

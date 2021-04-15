@@ -19,13 +19,9 @@ extends:
     Clouds: ACS_Public
     CloudConfig:
       ACS_Public:
-        SubscriptionConfiguration: $(sub-config-communication-services-cloud-test-resources-test)
-          #          - SubscriptionId: foo
-          #            TenantId: bar
-          #          - SubscriptionId: foo2
-          #            Phone: $(communication-livetest-phone-number)
-          #          - $(sub-config-azure-cloud-test-resources)
-          #- $(sub-config-communication-services-cloud-test-resources-test)
+        SubscriptionConfigurations:
+          - $(sub-config-azure-cloud-test-resources)
+          - $(sub-config-communication-services-cloud-test-resources-test)
     EnvVars:
       AZURE_TENANT_ID: $(COMMUNICATION_TENANT_ID)
       AZURE_CLIENT_ID: $(COMMUNICATION_CLIENT_ID)
