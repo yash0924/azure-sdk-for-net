@@ -1,0 +1,35 @@
+parameters:
+  SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
+
+steps:
+  - pwsh: |
+      $subscriptionConfiguration = @"
+        ${{ parameters.SubscriptionConfiguration }}
+      "@ | ConvertFrom-Json -AsHashtable;
+
+      if ($subscriptionConfiguration -isnot [Array]) {
+          Write-Host "##vso[task.setvariable variable=SubscriptionConfiguration;]${{ parameters.SubscriptionConfiguration }}"
+          exit
+      }
+
+      $mergedConfiguration = @{}
+      foreach ($config in $subscriptionConfiguration) {
+        foreach ($pair in $config.GetEnumerator()) {
+          if ($pair.Value -is [Hashtable]) {
+            if (!$mergedConfiguration.ContainsKey($pair.Name)) {
+              $mergedConfiguration[$pair.Name] = $pair.Value
+            } else {
+              foreach($nestedPair in $pair.Value.GetEnumerator()) {
+                $mergedConfiguration[$pair.Name][$nestedPair.Name] = $nestedPair.Value
+              }
+            }
+          } else {
+            $mergedConfiguration[$pair.Name] = $pair.Value
+          }
+        }
+      }
+
+      $mergedConfigurationSerialized = $mergedConfiguration | ConvertTo-Json -Compress
+      Write-Host "##vso[task.setvariable variable=SubscriptionConfiguration;]$mergedConfigurationSerialized"
+
+    displayName: Build Test Resource Configuration
