@@ -3,6 +3,24 @@ parameters:
 
 steps:
   - pwsh: |
+      Write-Host "##vso[task.setvariable variable=SubscriptionConfigurationRaw;]"
+    displayName: Initialize project list variable
+
+  - ${{ each config in parameters.SubscriptionConfiguration }}:
+    - pwsh: |
+        Write-Host '${{ config }}'
+      displayName: Test
+
+  - ${{ each config in parameters.SubscriptionConfiguration }}:
+    - pwsh: |
+        Write-Host "##vso[task.setvariable variable=SubscriptionConfigurationRaw;]$(SubscriptionConfigurationRaw),'${{ config }}'"
+      displayName: Test Config
+
+  - pwsh: |
+      Write-Host '$(SubscriptionConfigurationRaw)'
+    displayName: Test Print
+
+  - pwsh: |
       Write-Host '${{ convertToJson(parameters.SubscriptionConfiguration) }}'
       Write-Host '${{ convertToJson(parameters.SubscriptionConfiguration) }}'[0]
       Write-Host '${{ convertToJson(parameters.SubscriptionConfiguration) }}'[1]
@@ -18,6 +36,13 @@ steps:
       Write-Host '${{ convertToJson(parameters.SubscriptionConfiguration) }}'[11]
       Write-Host '${{ convertToJson(parameters.SubscriptionConfiguration) }}'[12]
       Write-Host '${{ convertToJson(parameters.SubscriptionConfiguration) }}'[13]
+
+      $subscriptionConfigurationRaw = @"
+        ${{ convertToJson(parameters.SubscriptionConfiguration) }}
+      "@
+
+      $subscriptionConfiguration = $subscriptionConfigurationRaw | ForEach-Object {
+      }
 
       $subscriptionConfiguration = @"
         ${{ convertToJson(parameters.SubscriptionConfiguration) }}
