@@ -38,12 +38,10 @@ steps:
               }
               foreach($nestedPair in $pair.Value.GetEnumerator()) {
                 Write-Host "##vso[task.setvariable variable=$($nestedPair.Name);issecret=true;]$($nestedPair.Value)"
-                Write-Host "[task.setvariable variable=$($nestedPair.Name);issecret=true;]$($nestedPair.Value)"
                 $config[$pair.Name][$nestedPair.Name] = $nestedPair.Value
               }
             } else {
               Write-Host "##vso[task.setvariable variable=$($pair.Name);issecret=true;]$($pair.Value)"
-              Write-Host "vso[task.setvariable variable=$($pair.Name);issecret=true;]$($pair.Value)"
               $config[$pair.Name] = $pair.Value
             }
           }
