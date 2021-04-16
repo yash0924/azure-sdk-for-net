@@ -33,18 +33,17 @@ steps:
 
           foreach ($pair in $addToConfig.GetEnumerator()) {
             if ($pair.Value -is [Hashtable]) {
-              Write-Host "Found hash: " $pair.Name
               if (!$config.ContainsKey($pair.Name)) {
-                Write-Host "Found no dup: " $pair.Name
-                $config[$pair.Name] = $pair.Value
-              } else {
-                foreach($nestedPair in $pair.Value.GetEnumerator()) {
-                  Write-Host "Adding nested: " $pair.Name $nestedPair.Name
-                  $config[$pair.Name][$nestedPair.Name] = $nestedPair.Value
-                }
+                $config[$pair.Name] = @{}
+              }
+              foreach($nestedPair in $pair.Value.GetEnumerator()) {
+                Write-Host "##vso[task.setvariable variable=$nestedPair.Name;issecret=true;]$($nestedPair.Value)"
+                Write-Host "[task.setvariable variable=$nestedPair.Name;issecret=true;]$($nestedPair.Value)"
+                $config[$pair.Name][$nestedPair.Name] = $nestedPair.Value
               }
             } else {
-              Write-Host "Not hash: " $pair.Name $pair.Value.GetType()
+              Write-Host "##vso[task.setvariable variable=$pair.Name;issecret=true;]$($pair.Value)"
+              Write-Host "vso[task.setvariable variable=$pair.Name;issecret=true;]$($pair.Value)"
               $config[$pair.Name] = $pair.Value
             }
           }
