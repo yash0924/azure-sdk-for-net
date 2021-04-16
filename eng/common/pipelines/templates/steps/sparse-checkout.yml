@@ -17,9 +17,12 @@ steps:
     - checkout: none
 
   - ${{ each repo in parameters.Repositories }}:
-    - pwsh: |
-        $dir = "${{ coalesce(repo.WorkingDirectory, format('{0}/{1}', '$(System.DefaultWorkingDirectory)', repo.Name)) }}"
-        New-Item $dir -ItemType Directory -Force
+    - bash: |
+        DIR = "${{ coalesce(repo.WorkingDirectory, format('{0}/{1}', '$(System.DefaultWorkingDirectory)', repo.Name)) }}"
+        mkdir -p $DIR
+    #    - pwsh: |
+    #        $dir = "${{ coalesce(repo.WorkingDirectory, format('{0}/{1}', '$(System.DefaultWorkingDirectory)', repo.Name)) }}"
+    #        New-Item $dir -ItemType Directory -Force
 
     - pwsh: |
         git clone --no-checkout --filter=tree:0 git://github.com/${{ repo.Name }} .
