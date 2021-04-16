@@ -19,11 +19,9 @@ steps:
   - ${{ each repo in parameters.Repositories }}:
     - bash: |
         mkdir -p "${{ coalesce(repo.WorkingDirectory, format('{0}/{1}', '$(System.DefaultWorkingDirectory)', repo.Name)) }}"
-    #    - pwsh: |
-    #        $dir = "${{ coalesce(repo.WorkingDirectory, format('{0}/{1}', '$(System.DefaultWorkingDirectory)', repo.Name)) }}"
-    #        New-Item $dir -ItemType Directory -Force
+      displayName: Create git directories
 
-    - pwsh: |
+    - bash: |
         git clone --no-checkout --filter=tree:0 git://github.com/${{ repo.Name }} .
         git sparse-checkout init
         git sparse-checkout set eng
@@ -31,10 +29,10 @@ steps:
       workingDirectory: ${{ coalesce(repo.WorkingDirectory, format('{0}/{1}', '$(System.DefaultWorkingDirectory)', repo.Name)) }}
 
     - ${{ each path in parameters.Paths }}:
-      - pwsh: git sparse-checkout add ${{ path }}
+      - bash: git sparse-checkout add ${{ path }}
         displayName: Add sparse checkout path ${{ path }}
         workingDirectory: ${{ coalesce(repo.WorkingDirectory, format('{0}/{1}', '$(System.DefaultWorkingDirectory)', repo.Name)) }}
 
-    - pwsh: git checkout ${{ repo.Commitish }}
+    - bash: git checkout ${{ repo.Commitish }}
       displayName: Sparse checkout at ${{ repo.Commitish }}
       workingDirectory: ${{ coalesce(repo.WorkingDirectory, format('{0}/{1}', '$(System.DefaultWorkingDirectory)', repo.Name)) }}
