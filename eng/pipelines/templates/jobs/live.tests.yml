@@ -74,10 +74,10 @@ jobs:
       container: $[ variables['Container'] ]
 
     steps:
-      #      - template: /eng/common/pipelines/templates/steps/sparse-checkout.yml
-      #        parameters:
-      #          Paths:
-      #            - ${{ parameters.ServiceDirectory }}
+      - template: /eng/common/pipelines/templates/steps/sparse-checkout.yml
+        parameters:
+          Paths:
+            - ${{ parameters.ServiceDirectory }}
 
       - ${{ parameters.PreSteps }}
 

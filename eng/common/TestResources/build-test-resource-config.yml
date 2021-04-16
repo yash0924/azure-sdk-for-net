@@ -12,6 +12,18 @@ steps:
         $config = @'
           ${{ parameters.SubscriptionConfiguration }}
         '@ | ConvertFrom-Json -AsHashtable
+
+        foreach($pair in $config.GetEnumerator()) {
+          if ($pair.Value -is [Hashtable]) {
+            foreach($nestedPair in $pair.Value.GetEnumerator()) {
+              Write-Host "##vso[task.setvariable variable=$($nestedPair.Name);issecret=true;]$($nestedPair.Value)"
+            }
+          } else {
+            Write-Host "##vso[task.setvariable variable=$($pair.Name);issecret=true;]$($pair.Value)"
+          }
+        }
+
+        Write-Host ($config | ConvertTo-Json)
         $serialized = $config | ConvertTo-Json -Compress
         Write-Host "##vso[task.setvariable variable=SubscriptionConfiguration;$serialized]"
       displayName: Initialize SubscriptionConfiguration variable
