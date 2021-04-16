@@ -10,7 +10,7 @@ steps:
   - ${{ if parameters.SubscriptionConfiguration }}:
     - pwsh: |
         $config = @'
-          $(SubscriptionConfiguration)
+          ${{ parameters.SubscriptionConfiguration }}
         '@ | ConvertFrom-Json -AsHashtable
         $serialized = $config | ConvertTo-Json -Compress
         Write-Host "##vso[task.setvariable variable=SubscriptionConfiguration;$serialized]"
