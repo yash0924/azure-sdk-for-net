@@ -16,10 +16,10 @@ steps:
         foreach($pair in $config.GetEnumerator()) {
           if ($pair.Value -is [Hashtable]) {
             foreach($nestedPair in $pair.Value.GetEnumerator()) {
-              Write-Host "##vso[task.setvariable variable=$($nestedPair.Name);issecret=true;]$($nestedPair.Value)"
+              Write-Host "vso[task.setvariable variable=$($nestedPair.Name);issecret=true;]$($nestedPair.Value)"
             }
           } else {
-            Write-Host "##vso[task.setvariable variable=$($pair.Name);issecret=true;]$($pair.Value)"
+            Write-Host "vso[task.setvariable variable=$($pair.Name);issecret=true;]$($pair.Value)"
           }
         }
 
