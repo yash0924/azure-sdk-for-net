@@ -49,7 +49,7 @@ steps:
           }
 
           $serialized = $config | ConvertTo-Json -Compress
-          Write-Host $serialized
+          Write-Host $config | ConvertTo-Json
           Write-Host "##vso[task.setvariable variable=SubscriptionConfiguration;]$serialized"
 
         displayName: Merge Test Resource Configurations
