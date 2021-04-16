@@ -18,8 +18,7 @@ steps:
 
   - ${{ each repo in parameters.Repositories }}:
     - bash: |
-        DIR = "${{ coalesce(repo.WorkingDirectory, format('{0}/{1}', '$(System.DefaultWorkingDirectory)', repo.Name)) }}"
-        mkdir -p $DIR
+        mkdir -p "${{ coalesce(repo.WorkingDirectory, format('{0}/{1}', '$(System.DefaultWorkingDirectory)', repo.Name)) }}"
     #    - pwsh: |
     #        $dir = "${{ coalesce(repo.WorkingDirectory, format('{0}/{1}', '$(System.DefaultWorkingDirectory)', repo.Name)) }}"
     #        New-Item $dir -ItemType Directory -Force

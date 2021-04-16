@@ -42,14 +42,14 @@ steps:
                 $config[$pair.Name][$nestedPair.Name] = $nestedPair.Value
               }
             } else {
-              Write-Host "##vso[task.setvariable variable=$(pair.Name);issecret=true;]$($pair.Value)"
-              Write-Host "vso[task.setvariable variable=$(pair.Name);issecret=true;]$($pair.Value)"
+              Write-Host "##vso[task.setvariable variable=$($pair.Name);issecret=true;]$($pair.Value)"
+              Write-Host "vso[task.setvariable variable=$($pair.Name);issecret=true;]$($pair.Value)"
               $config[$pair.Name] = $pair.Value
             }
           }
 
           $serialized = $config | ConvertTo-Json -Compress
-          Write-Host $config | ConvertTo-Json
+          Write-Host ($config | ConvertTo-Json)
           Write-Host "##vso[task.setvariable variable=SubscriptionConfiguration;]$serialized"
 
         displayName: Merge Test Resource Configurations
