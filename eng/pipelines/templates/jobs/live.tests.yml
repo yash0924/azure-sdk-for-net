@@ -74,6 +74,12 @@ jobs:
       container: $[ variables['Container'] ]
 
     steps:
+      - template: /eng/common/pipelines/templates/steps/sparse-checkout.yml
+        parameters:
+          Paths:
+            - sdk/communication
+            - '**/global.json'
+
       - ${{ parameters.PreSteps }}
 
       - template: /eng/common/pipelines/templates/steps/verify-agent-os.yml
