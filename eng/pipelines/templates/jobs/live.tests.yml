@@ -104,6 +104,10 @@ jobs:
           ArmTemplateParameters: $(ArmTemplateParameters)
 
       - pwsh: |
+          Write-Host "##vso[task.setvariable variable=FOOBAR;]foobarbaz"
+        displayName: BBP DEBUG SET
+
+      - pwsh: |
           Write-Host "comm"
           Write-Host $env:COMMUNICATION_PHONE_NUMBER
           Write-Host "azure p"
@@ -112,6 +116,8 @@ jobs:
           Write-Host $env:SMS_SERVICE_PHONE_NUMBER
           Write-Host "tenant"
           Write-Host $env:AZURE_TENANT_ID
+          Write-Host "foobar"
+          Write-Host $env:FOOBAR
         displayName: BBP DEBUG
 
       - pwsh: |
