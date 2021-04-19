@@ -119,6 +119,10 @@ jobs:
           Write-Host $env:AZURE_TENANT_ID
           Write-Host "foobar"
           Write-Host $env:FOOBAR
+          Write-Host "foobar2"
+          Write-Host $env:FOOBAR2
+          Write-Host "foobar2secret"
+          Write-Host $env:_FOOBAR2
         displayName: BBP DEBUG
 
       - pwsh: |
