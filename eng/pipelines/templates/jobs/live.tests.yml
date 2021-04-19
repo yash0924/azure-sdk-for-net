@@ -109,8 +109,12 @@ jobs:
         displayName: BBP DEBUG SET
 
       - pwsh: |
+          Write-Host "comm prefix"
+          Write-Host $env:COMMUNICATION_COMMUNICATION_PHONE_NUMBER
           Write-Host "comm"
           Write-Host $env:COMMUNICATION_PHONE_NUMBER
+          Write-Host "azure p prefix"
+          Write-Host $env:COMMUNICATION_AZURE_PHONE_NUMBER
           Write-Host "azure p"
           Write-Host $env:AZURE_PHONE_NUMBER
           Write-Host "sms"
