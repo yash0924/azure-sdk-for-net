@@ -104,6 +104,7 @@ jobs:
           ArmTemplateParameters: $(ArmTemplateParameters)
 
       - pwsh: |
+          Write-Host "##vso[task.setvariable variable=_FOOBAR;issecret=true;]foobarbaz"
           Write-Host "##vso[task.setvariable variable=FOOBAR;]foobarbaz"
         displayName: BBP DEBUG SET
 
