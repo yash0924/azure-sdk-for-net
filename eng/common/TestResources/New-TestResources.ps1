@@ -530,7 +530,7 @@ try {
             }
 
             Write-Host "BBP Setting variable '$key': ***"
-            Write-Host "##vso[task.setvariable variable=_FOOBAR2;issecret=true;]foobar2"
+            #Write-Host "##vso[task.setvariable variable=_FOOBAR2;issecret=true;]foobar2"
             Write-Host "##vso[task.setvariable variable=FOOBAR2;]foobar2"
 
             foreach ($key in $deploymentOutputs.Keys) {
