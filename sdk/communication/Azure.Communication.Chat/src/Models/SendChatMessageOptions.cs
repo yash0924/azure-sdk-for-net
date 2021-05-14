@@ -15,6 +15,6 @@ namespace Azure.Communication.Chat
         /// <summary>The display name of the message sender. This property is used to populate sender name for push notifications.</summary>
         public string SenderDisplayName { get; set; }
         /// <summary> Properties bag for custom attributes to the message in the form of key-value pair. </summary>
-        public IDictionary<string, string> Properties { get; } = new Dictionary<string, string>();
+        public IDictionary<string, string> Metadata { get; } = new Dictionary<string, string>();
     }
 }

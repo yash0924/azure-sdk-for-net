@@ -153,7 +153,7 @@ namespace Azure.Communication.Chat
             try
             {
                 Response<SendChatMessageResultInternal> sendChatMessageResultInternal =
-                    await _chatThreadRestClient.SendChatMessageAsync(Id, options.Content, options.SenderDisplayName, options.MessageType, options.Properties ?? new Dictionary<string, string>(), cancellationToken).ConfigureAwait(false);
+                    await _chatThreadRestClient.SendChatMessageAsync(Id, options.Content, options.SenderDisplayName, options.MessageType, options.Metadata ?? new Dictionary<string, string>(), cancellationToken).ConfigureAwait(false);
                 return Response.FromValue(new SendChatMessageResult(sendChatMessageResultInternal.Value), sendChatMessageResultInternal.GetRawResponse());
             }
             catch (Exception ex)
@@ -183,7 +183,7 @@ namespace Azure.Communication.Chat
             try
             {
                 Response<SendChatMessageResultInternal> sendChatMessageResultInternal =
-                    _chatThreadRestClient.SendChatMessage(Id, options.Content, options.SenderDisplayName, options.MessageType, options.Properties ?? new Dictionary<string, string>(), cancellationToken);
+                    _chatThreadRestClient.SendChatMessage(Id, options.Content, options.SenderDisplayName, options.MessageType, options.Metadata ?? new Dictionary<string, string>(), cancellationToken);
                 return Response.FromValue(new SendChatMessageResult(sendChatMessageResultInternal.Value), sendChatMessageResultInternal.GetRawResponse());
             }
             catch (Exception ex)
@@ -337,7 +337,7 @@ namespace Azure.Communication.Chat
             scope.Start();
             try
             {
-                return await _chatThreadRestClient.UpdateChatMessageAsync(Id, options.MessageId, options.Content, options.Properties ?? new Dictionary<string, string>(), cancellationToken).ConfigureAwait(false);
+                return await _chatThreadRestClient.UpdateChatMessageAsync(Id, options.MessageId, options.Content, options.Metadata ?? new Dictionary<string, string>(), cancellationToken).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -366,7 +366,7 @@ namespace Azure.Communication.Chat
             scope.Start();
             try
             {
-                return _chatThreadRestClient.UpdateChatMessage(Id, options.MessageId, options.Content, options.Properties ?? new Dictionary<string, string>(), cancellationToken);
+                return _chatThreadRestClient.UpdateChatMessage(Id, options.MessageId, options.Content, options.Metadata ?? new Dictionary<string, string>(), cancellationToken);
             }
             catch (Exception ex)
             {

@@ -13,6 +13,6 @@ namespace Azure.Communication.Chat
         /// <summary> Content of a chat message. </summary>
         public string Content { get; set; }
         /// <summary> Properties bag for custom attributes to the message in the form of key-value pair. </summary>
-        public IDictionary<string, string> Properties { get; } = new Dictionary<string, string>();
+        public IDictionary<string, string> Metadata { get; } = new Dictionary<string, string>();
     }
 }

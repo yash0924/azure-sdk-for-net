@@ -27,11 +27,11 @@ namespace Azure.Communication.Chat
                 writer.WritePropertyName("type");
                 writer.WriteStringValue(Type.Value.ToString());
             }
-            if (Optional.IsCollectionDefined(Properties))
+            if (Optional.IsCollectionDefined(Metadata))
             {
-                writer.WritePropertyName("properties");
+                writer.WritePropertyName("metadata");
                 writer.WriteStartObject();
-                foreach (var item in Properties)
+                foreach (var item in Metadata)
                 {
                     writer.WritePropertyName(item.Key);
                     writer.WriteStringValue(item.Value);

@@ -27,7 +27,7 @@ namespace Azure.Communication.Chat
             Optional<CommunicationIdentifierModel> senderCommunicationIdentifier = default;
             Optional<DateTimeOffset> deletedOn = default;
             Optional<DateTimeOffset> editedOn = default;
-            Optional<IReadOnlyDictionary<string, string>> properties = default;
+            Optional<IReadOnlyDictionary<string, string>> metadata = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("id"))
@@ -100,7 +100,7 @@ namespace Azure.Communication.Chat
                     editedOn = property.Value.GetDateTimeOffset("O");
                     continue;
                 }
-                if (property.NameEquals("properties"))
+                if (property.NameEquals("metadata"))
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
@@ -112,11 +112,11 @@ namespace Azure.Communication.Chat
                     {
                         dictionary.Add(property0.Name, property0.Value.GetString());
                     }
-                    properties = dictionary;
+                    metadata = dictionary;
                     continue;
                 }
             }
-            return new ChatMessageInternal(id, type, sequenceId, version, content.Value, senderDisplayName.Value, createdOn, senderCommunicationIdentifier.Value, Optional.ToNullable(deletedOn), Optional.ToNullable(editedOn), Optional.ToDictionary(properties));
+            return new ChatMessageInternal(id, type, sequenceId, version, content.Value, senderDisplayName.Value, createdOn, senderCommunicationIdentifier.Value, Optional.ToNullable(deletedOn), Optional.ToNullable(editedOn), Optional.ToDictionary(metadata));
         }
     }
 }

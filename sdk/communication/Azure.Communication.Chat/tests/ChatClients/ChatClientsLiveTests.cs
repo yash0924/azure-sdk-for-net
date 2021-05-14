@@ -89,7 +89,6 @@ namespace Azure.Communication.Chat.Tests
             string messageContent3 = "Content for message 3";
             SendChatMessageResult sendChatMessageResult3 = await chatThreadClient3.SendMessageAsync(messageContent3, ChatMessageType.Text, displayNameMessage);
             string messageId3 = sendChatMessageResult3.Id;
-            ;
 
             string messageContent4 = "Content for message 4";
             SendChatMessageResult sendChatMessageResult4 = await chatThreadClient3.SendMessageAsync(messageContent4, ChatMessageType.Html, displayNameMessage);
@@ -108,12 +107,12 @@ namespace Azure.Communication.Chat.Tests
                 Content = "Content for message 7",
                 MessageType = ChatMessageType.Html,
                 SenderDisplayName = "DisplayName sender message options message 7",
-                Properties = {
+                Metadata = {
                     { "tags", "tag value" },
                     { "deliveryMode", "deliveryMode value" },
                     { "onedriveReferences", "onedriveReferences value" },
                     { "amsreferences", "[\"test url file 1\",\"test url file2\"]" },
-                    { "key", "value key" },  //not in allow list
+                    { "key", "value key" }
                 }
             };
             SendChatMessageResult sendChatMessageResult7 = await chatThreadClient3.SendMessageAsync(sendChatMessageOptions7);
@@ -132,7 +131,7 @@ namespace Azure.Communication.Chat.Tests
             var getMessagesCount = messages.ToEnumerableAsync().Result.Count;
             var getMessagesCount2 = messages2.ToEnumerableAsync().Result.Count;
 
-            #region Messages Pagination assertions
+            #region Messages pagination assertions
             AsyncPageable<ChatMessage> messagesPaginationTest = chatThreadClient.GetMessagesAsync();
             await PageableTester<ChatMessage>.AssertPaginationAsync(enumerableResource: messagesPaginationTest, expectedPageSize: 2, expectedTotalResources: 9);
             #endregion
@@ -149,17 +148,17 @@ namespace Azure.Communication.Chat.Tests
             {
                 MessageId = messageId7,
                 Content = "Content for message 7 - updated",
-                Properties = {
+                Metadata = {
                     { "tags", "" },
                     { "deliveryMode", "deliveryMode value - updated" },
                     { "onedriveReferences", "onedriveReferences value - updated" },
                     { "amsreferences", "[\"test url file 3\"]" },
-                    { "key", "value key" },  //not in allow list
+                    { "key", "value key" }
                 }
             };
 
             await chatThreadClient3.UpdateMessageAsync(updateChatMessageOptions7);
-            Response<ChatMessage> actualUpdateMessage7 = await chatThreadClient3.GetMessageAsync(messageId7);
+            Response<ChatMessage> actualUpdatedMessage7 = await chatThreadClient3.GetMessageAsync(messageId7);
             List<ChatMessage> messagesAfterOneDeleted = chatThreadClient.GetMessagesAsync().ToEnumerableAsync().Result;
             ChatMessage deletedChatMessage = messagesAfterOneDeleted.First(x => x.Id == messageId);
 
@@ -215,17 +214,16 @@ namespace Azure.Communication.Chat.Tests
             Assert.AreEqual(sendChatMessageOptions7.MessageType, message7.Type);
             Assert.AreEqual(sendChatMessageOptions7.SenderDisplayName, message7.SenderDisplayName);
             Assert.AreEqual(sendChatMessageOptions7.Content, message7.Content.Message);
-            Assert.AreEqual(4, message7.Properties.Count);
-            CollectionAssert.IsSubsetOf(message7.Properties, sendChatMessageOptions7.Properties);
+            CollectionAssert.AreEquivalent(sendChatMessageOptions7.Metadata, message7.Metadata);
 
-            Assert.AreEqual(sendChatMessageOptions7.MessageType, actualUpdateMessage7.Value.Type);
-            Assert.AreEqual(sendChatMessageOptions7.SenderDisplayName, actualUpdateMessage7.Value.SenderDisplayName);
-            Assert.AreEqual(updateChatMessageOptions7.Content, actualUpdateMessage7.Value.Content.Message);
-            Assert.AreEqual(3, actualUpdateMessage7.Value.Properties.Count);
-            Assert.AreEqual(updateChatMessageOptions7.Properties["deliveryMode"], actualUpdateMessage7.Value.Properties["deliveryMode"]);
-            Assert.AreEqual(updateChatMessageOptions7.Properties["onedriveReferences"], actualUpdateMessage7.Value.Properties["onedriveReferences"]);
-            Assert.AreEqual(updateChatMessageOptions7.Properties["amsreferences"], actualUpdateMessage7.Value.Properties["amsreferences"]);
-
+            Assert.AreEqual(sendChatMessageOptions7.MessageType, actualUpdatedMessage7.Value.Type);
+            Assert.AreEqual(sendChatMessageOptions7.SenderDisplayName, actualUpdatedMessage7.Value.SenderDisplayName);
+            Assert.AreEqual(updateChatMessageOptions7.Content, actualUpdatedMessage7.Value.Content.Message);
+            Assert.AreEqual(4, actualUpdatedMessage7.Value.Metadata.Count);
+            Assert.AreEqual(updateChatMessageOptions7.Metadata["deliveryMode"], actualUpdatedMessage7.Value.Metadata["deliveryMode"]);
+            Assert.AreEqual(updateChatMessageOptions7.Metadata["onedriveReferences"], actualUpdatedMessage7.Value.Metadata["onedriveReferences"]);
+            Assert.AreEqual(updateChatMessageOptions7.Metadata["amsreferences"], actualUpdatedMessage7.Value.Metadata["amsreferences"]);
+            Assert.AreEqual(updateChatMessageOptions7.Metadata["key"], actualUpdatedMessage7.Value.Metadata["key"]);
             Assert.AreEqual(2, threadsCount);
             Assert.AreEqual(9, getMessagesCount); //Including all types : 6 text message, 3 control messages
             Assert.AreEqual(3, getMessagesCount2); //Including all types : 1 text message, 2 control messages
