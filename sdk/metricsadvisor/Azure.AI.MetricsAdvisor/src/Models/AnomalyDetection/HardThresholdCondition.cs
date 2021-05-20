@@ -1,6 +1,8 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
+
 namespace Azure.AI.MetricsAdvisor.Models
 {
     /// <summary>
@@ -32,7 +34,7 @@ namespace Azure.AI.MetricsAdvisor.Models
         /// The direction of the specified boundaries. Depending on its value, <see cref="LowerBound"/>
         /// and/or <see cref="UpperBound"/> may be required.
         /// </summary>
-        public AnomalyDetectorDirection AnomalyDetectorDirection { get; set; }
+        public AnomalyDetectorDirection? AnomalyDetectorDirection { get; set; }
 
         /// <summary>
         /// The <see cref="Models.SuppressCondition"/> to be applied to every unexpected data point.
