@@ -69,7 +69,7 @@ namespace Azure.AI.MetricsAdvisor.Models
             ChangePercentage = ChangePercentage,
             WithinRange = IsWithinRange,
             AnomalyDetectorDirection = AnomalyDetectorDirection,
-            SuppressCondition = SuppressCondition.GetPatchModel()
+            SuppressCondition = SuppressCondition?.GetPatchModel()
         };
     }
 }

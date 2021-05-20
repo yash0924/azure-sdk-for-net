@@ -49,7 +49,7 @@ namespace Azure.AI.MetricsAdvisor.Models
         {
             Sensitivity = Sensitivity,
             AnomalyDetectorDirection = AnomalyDetectorDirection,
-            SuppressCondition = SuppressCondition.GetPatchModel()
+            SuppressCondition = SuppressCondition?.GetPatchModel()
         };
     }
 }

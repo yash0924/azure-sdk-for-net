@@ -45,9 +45,9 @@ namespace Azure.AI.MetricsAdvisor.Models
         internal WholeMetricConfigurationPatch GetPatchModel() => new WholeMetricConfigurationPatch()
         {
             ConditionOperator = CrossConditionsOperator,
-            SmartDetectionCondition = SmartDetectionCondition.GetPatchModel(),
-            HardThresholdCondition = HardThresholdCondition.GetPatchModel(),
-            ChangeThresholdCondition = ChangeThresholdCondition.GetPatchModel()
+            SmartDetectionCondition = SmartDetectionCondition?.GetPatchModel(),
+            HardThresholdCondition = HardThresholdCondition?.GetPatchModel(),
+            ChangeThresholdCondition = ChangeThresholdCondition?.GetPatchModel()
         };
     }
 }

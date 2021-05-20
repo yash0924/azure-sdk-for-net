@@ -56,7 +56,7 @@ namespace Azure.AI.MetricsAdvisor.Models
         internal HardThresholdConditionPatch GetPatchModel() => new HardThresholdConditionPatch()
         {
             AnomalyDetectorDirection = AnomalyDetectorDirection,
-            SuppressCondition = SuppressCondition.GetPatchModel(),
+            SuppressCondition = SuppressCondition?.GetPatchModel(),
             LowerBound = LowerBound,
             UpperBound = UpperBound
         };
