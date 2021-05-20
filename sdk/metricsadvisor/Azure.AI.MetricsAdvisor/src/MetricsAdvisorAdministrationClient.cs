@@ -889,7 +889,8 @@ namespace Azure.AI.MetricsAdvisor.Administration
             try
             {
                 AnomalyDetectionConfigurationPatch patch = detectionConfiguration.GetPatchModel();
-                return await _serviceRestClient.UpdateAnomalyDetectionConfigurationAsync(detectionConfigurationGuid, patch, cancellationToken).ConfigureAwait(false);
+                await _serviceRestClient.UpdateAnomalyDetectionConfigurationAsync(detectionConfigurationGuid, patch, cancellationToken).ConfigureAwait(false);
+                return await GetDetectionConfigurationAsync(detectionConfigurationId, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception e)
             {
@@ -925,7 +926,8 @@ namespace Azure.AI.MetricsAdvisor.Administration
             try
             {
                 AnomalyDetectionConfigurationPatch patch = detectionConfiguration.GetPatchModel();
-                return _serviceRestClient.UpdateAnomalyDetectionConfiguration(detectionConfigurationGuid, patch, cancellationToken);
+                _serviceRestClient.UpdateAnomalyDetectionConfiguration(detectionConfigurationGuid, patch, cancellationToken);
+                return GetDetectionConfiguration(detectionConfigurationId, cancellationToken);
             }
             catch (Exception e)
             {
