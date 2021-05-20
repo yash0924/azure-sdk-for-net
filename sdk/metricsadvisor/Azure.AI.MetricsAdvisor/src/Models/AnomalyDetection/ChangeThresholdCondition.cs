@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
 using Azure.Core;
 
 namespace Azure.AI.MetricsAdvisor.Models
@@ -18,6 +19,20 @@ namespace Azure.AI.MetricsAdvisor.Models
         /// </summary>
         public ChangeThresholdCondition()
         {
+        }
+
+        internal ChangeThresholdCondition(double changePercentage, int shiftPoint, bool isWithinRange, AnomalyDetectorDirection anomalyDetectorDirection, SuppressCondition suppressCondition)
+        {
+            if (suppressCondition == null)
+            {
+                throw new ArgumentNullException(nameof(suppressCondition));
+            }
+
+            ChangePercentage = changePercentage;
+            ShiftPoint = shiftPoint;
+            IsWithinRange = isWithinRange;
+            AnomalyDetectorDirection = anomalyDetectorDirection;
+            SuppressCondition = suppressCondition;
         }
 
         /// <summary>

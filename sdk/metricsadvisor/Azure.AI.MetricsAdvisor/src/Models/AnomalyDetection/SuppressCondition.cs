@@ -20,6 +20,12 @@ namespace Azure.AI.MetricsAdvisor.Models
         {
         }
 
+        internal SuppressCondition(int minimumNumber, double minimumRatio)
+        {
+            MinimumNumber = minimumNumber;
+            MinimumRatio = minimumRatio;
+        }
+
         /// <summary>
         /// The amount of data points to consider when looking back on the previously ingested data.
         /// Must include the most recent point, so value must be at least 1.

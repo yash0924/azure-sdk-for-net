@@ -17,6 +17,17 @@ namespace Azure.AI.MetricsAdvisor.Models
         {
         }
 
+        internal HardThresholdCondition(AnomalyDetectorDirection anomalyDetectorDirection, SuppressCondition suppressCondition)
+        {
+            if (suppressCondition == null)
+            {
+                throw new ArgumentNullException(nameof(suppressCondition));
+            }
+
+            AnomalyDetectorDirection = anomalyDetectorDirection;
+            SuppressCondition = suppressCondition;
+        }
+
         /// <summary>
         /// The direction of the specified boundaries. Depending on its value, <see cref="LowerBound"/>
         /// and/or <see cref="UpperBound"/> may be required.

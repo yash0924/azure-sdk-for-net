@@ -15,6 +15,18 @@ namespace Azure.AI.MetricsAdvisor.Models
         {
         }
 
+        internal SmartDetectionCondition(double sensitivity, AnomalyDetectorDirection anomalyDetectorDirection, SuppressCondition suppressCondition)
+        {
+            if (suppressCondition == null)
+            {
+                throw new ArgumentNullException(nameof(suppressCondition));
+            }
+
+            Sensitivity = sensitivity;
+            AnomalyDetectorDirection = anomalyDetectorDirection;
+            SuppressCondition = suppressCondition;
+        }
+
         /// <summary>
         /// A numerical value to adjust the tolerance of the anomaly detection with a range of (0, 100].
         /// Visually, the higher the value, the narrower the upper and lower boundaries around the time series.
