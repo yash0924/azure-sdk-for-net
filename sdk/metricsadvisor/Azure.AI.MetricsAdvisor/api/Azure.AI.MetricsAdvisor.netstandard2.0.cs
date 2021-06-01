@@ -19,6 +19,19 @@ namespace Azure.AI.MetricsAdvisor
         public static bool operator !=(Azure.AI.MetricsAdvisor.AlertQueryTimeMode left, Azure.AI.MetricsAdvisor.AlertQueryTimeMode right) { throw null; }
         public override string ToString() { throw null; }
     }
+    public static partial class AzureCognitiveServiceMetricsAdvisorRestAPIOpenAPIV2ModelFactory
+    {
+        public static Azure.AI.MetricsAdvisor.Models.AnomalyAlert AnomalyAlert(string id = null, System.DateTimeOffset timestamp = default(System.DateTimeOffset), System.DateTimeOffset createdTime = default(System.DateTimeOffset), System.DateTimeOffset modifiedTime = default(System.DateTimeOffset)) { throw null; }
+        public static Azure.AI.MetricsAdvisor.Models.AnomalyAlertConfiguration AnomalyAlertConfiguration(string id = null, string name = null, string description = null, Azure.AI.MetricsAdvisor.Models.MetricAnomalyAlertConfigurationsOperator? crossMetricsOperator = default(Azure.AI.MetricsAdvisor.Models.MetricAnomalyAlertConfigurationsOperator?), System.Collections.Generic.IList<string> splitAlertByDimensions = null, System.Collections.Generic.IList<string> idsOfHooksToAlert = null, System.Collections.Generic.IList<Azure.AI.MetricsAdvisor.Models.MetricAnomalyAlertConfiguration> metricAlertConfigurations = null) { throw null; }
+        public static Azure.AI.MetricsAdvisor.Models.AnomalyDetectionConfiguration AnomalyDetectionConfiguration(string id = null, string name = null, string description = null, string metricId = null, Azure.AI.MetricsAdvisor.Models.MetricWholeSeriesDetectionCondition wholeSeriesDetectionConditions = null, System.Collections.Generic.IList<Azure.AI.MetricsAdvisor.Models.MetricSeriesGroupDetectionCondition> seriesGroupDetectionConditions = null, System.Collections.Generic.IList<Azure.AI.MetricsAdvisor.Models.MetricSingleSeriesDetectionCondition> seriesDetectionConditions = null) { throw null; }
+        public static Azure.AI.MetricsAdvisor.Models.DataFeedIngestionProgress DataFeedIngestionProgress(System.DateTimeOffset? latestSuccessTimestamp = default(System.DateTimeOffset?), System.DateTimeOffset? latestActiveTimestamp = default(System.DateTimeOffset?)) { throw null; }
+        public static Azure.AI.MetricsAdvisor.Models.DataFeedIngestionStatus DataFeedIngestionStatus(System.DateTimeOffset timestamp = default(System.DateTimeOffset), Azure.AI.MetricsAdvisor.Models.IngestionStatusType status = default(Azure.AI.MetricsAdvisor.Models.IngestionStatusType), string message = null) { throw null; }
+        public static Azure.AI.MetricsAdvisor.Models.DataFeedMetric DataFeedMetric(string metricId = null, string metricName = null, string metricDisplayName = null, string metricDescription = null) { throw null; }
+        public static Azure.AI.MetricsAdvisor.Models.EnrichmentStatus EnrichmentStatus(System.DateTimeOffset timestamp = default(System.DateTimeOffset), string status = null, string message = null) { throw null; }
+        public static Azure.AI.MetricsAdvisor.Models.IncidentRootCause IncidentRootCause(Azure.AI.MetricsAdvisor.Models.DimensionKey dimensionKey = null, System.Collections.Generic.IReadOnlyList<string> paths = null, double score = 0, string description = null) { throw null; }
+        public static Azure.AI.MetricsAdvisor.Models.MetricSeriesData MetricSeriesData(Azure.AI.MetricsAdvisor.Models.MetricSeriesDefinition definition = null, System.Collections.Generic.IReadOnlyList<System.DateTimeOffset> timestamps = null, System.Collections.Generic.IReadOnlyList<double> values = null) { throw null; }
+        public static Azure.AI.MetricsAdvisor.Models.MetricSeriesDefinition MetricSeriesDefinition(string metricId = null, System.Collections.Generic.IReadOnlyDictionary<string, string> dimension = null) { throw null; }
+    }
     [System.Runtime.InteropServices.StructLayoutAttribute(System.Runtime.InteropServices.LayoutKind.Sequential)]
     public readonly partial struct FeedbackQueryTimeMode : System.IEquatable<Azure.AI.MetricsAdvisor.FeedbackQueryTimeMode>
     {
@@ -1058,7 +1071,7 @@ namespace Azure.AI.MetricsAdvisor.Models
         internal NotificationHook() { }
         public System.Collections.Generic.IReadOnlyList<string> Administrators { get { throw null; } }
         public string Description { get { throw null; } set { } }
-        public string ExternalLink { get { throw null; } set { } }
+        public System.Uri ExternalLink { get { throw null; } set { } }
         public string Id { get { throw null; } }
         public string Name { get { throw null; } set { } }
     }
@@ -1141,7 +1154,7 @@ namespace Azure.AI.MetricsAdvisor.Models
         public WebNotificationHook() { }
         public string CertificateKey { get { throw null; } set { } }
         public string CertificatePassword { get { throw null; } set { } }
-        public string Endpoint { get { throw null; } set { } }
+        public System.Uri Endpoint { get { throw null; } set { } }
         public System.Collections.Generic.IDictionary<string, string> Headers { get { throw null; } }
         public string Password { get { throw null; } set { } }
         public string Username { get { throw null; } set { } }
