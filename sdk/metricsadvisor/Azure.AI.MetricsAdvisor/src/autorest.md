@@ -837,23 +837,3 @@ directive:
         }
       }
 ```
-
-### Change patch operations until service deploys changes
-
-```yaml
-directive:
-  - from: swagger-document
-    where: $["paths"]["/enrichment/anomalyDetection/configurations/{configurationId}"]
-    transform: >
-      $.patch.responses = {
-        "204": {
-          "description": "Success"
-        },
-        "default": {
-          "description": "Client error or server error (4xx or 5xx)",
-          "schema": {
-            "$ref": "#/definitions/ErrorCode"
-          }
-        }
-      }
-```
