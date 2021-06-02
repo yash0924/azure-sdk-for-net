@@ -351,7 +351,6 @@ namespace Azure.AI.MetricsAdvisor.Tests
         [RecordedTest]
         [TestCase(true)]
         [TestCase(false)]
-        [Ignore("https://github.com/Azure/azure-sdk-for-net/issues/21177")]
         public async Task UpdateAlertConfigurationWithMinimumSetupAndGetInstance(bool useTokenCrendential)
         {
             MetricsAdvisorAdministrationClient adminClient = GetMetricsAdvisorAdministrationClient(useTokenCrendential);
@@ -359,7 +358,8 @@ namespace Azure.AI.MetricsAdvisor.Tests
             // Configure the Metric Anomaly Alert Configurations to be used.
 
             string hookName = Recording.GenerateAlphaNumericId("hook");
-            var hookToCreate = new WebNotificationHook() { Name = hookName, Endpoint = new Uri("http://contoso.com/") };
+            var hookToCreate = new EmailNotificationHook() { Name = hookName, EmailsToAlert = { "fake@email.com" } };
+
             await using var disposableHook = await DisposableNotificationHook.CreateHookAsync(adminClient, hookToCreate);
 
             var scope = MetricAnomalyAlertScope.GetScopeForWholeSeries();
@@ -387,7 +387,6 @@ namespace Azure.AI.MetricsAdvisor.Tests
 
             string configName = Recording.GenerateAlphaNumericId("config");
             var hookIds = new List<string>() { disposableHook.Id };
-            var metricAlertConfigs = new List<MetricAnomalyAlertConfiguration>() { metricAlertConfig0, metricAlertConfig1 };
 
             var configToCreate = new AnomalyAlertConfiguration()
             {
@@ -405,7 +404,7 @@ namespace Azure.AI.MetricsAdvisor.Tests
 
             configToUpdate.CrossMetricsOperator = MetricAnomalyAlertConfigurationsOperator.Or;
 
-            await adminClient.UpdateAlertConfigurationAsync(disposableConfig.Id, configToUpdate);
+            await adminClient.UpdateAlertConfigurationAsync(configToUpdate);
 
             // Get the updated configuration and validate top-level members.
 
@@ -520,7 +519,7 @@ namespace Azure.AI.MetricsAdvisor.Tests
                 CrossMetricsOperator = MetricAnomalyAlertConfigurationsOperator.Or
             };
 
-            await adminClient.UpdateAlertConfigurationAsync(disposableConfig.Id, configToUpdate);
+            await adminClient.UpdateAlertConfigurationAsync(configToUpdate);
 
             // Get the updated configuration and validate top-level members.
 
@@ -582,7 +581,6 @@ namespace Azure.AI.MetricsAdvisor.Tests
         }
 
         [RecordedTest]
-        [Ignore("https://github.com/Azure/azure-sdk-for-net/issues/21177")]
         public async Task UpdateAlertConfigurationWithEveryMemberAndGetInstance()
         {
             MetricsAdvisorAdministrationClient adminClient = GetMetricsAdvisorAdministrationClient();
@@ -590,7 +588,8 @@ namespace Azure.AI.MetricsAdvisor.Tests
             // Configure the Metric Anomaly Alert Configurations to be used.
 
             string hookName = Recording.GenerateAlphaNumericId("hook");
-            var hookToCreate = new WebNotificationHook() { Name = hookName, Endpoint = new Uri("http://contoso.com/") };
+            var hookToCreate = new EmailNotificationHook() { Name = hookName, EmailsToAlert = { "fake@email.com" } };
+
             await using var disposableHook = await DisposableNotificationHook.CreateHookAsync(adminClient, hookToCreate);
 
             var scope = MetricAnomalyAlertScope.GetScopeForWholeSeries();
@@ -659,7 +658,7 @@ namespace Azure.AI.MetricsAdvisor.Tests
 
             metricAlertConfigToUpdate.AlertSnoozeCondition = null;
 
-            await adminClient.UpdateAlertConfigurationAsync(disposableConfig.Id, configToUpdate);
+            await adminClient.UpdateAlertConfigurationAsync(configToUpdate);
 
             // Get the updated configuration and validate top-level members.
 
@@ -801,7 +800,7 @@ namespace Azure.AI.MetricsAdvisor.Tests
 
             metricAlertConfigToUpdate.AlertSnoozeCondition = null;
 
-            await adminClient.UpdateAlertConfigurationAsync(disposableConfig.Id, configToUpdate);
+            await adminClient.UpdateAlertConfigurationAsync(configToUpdate);
 
             // Get the updated configuration and validate top-level members.
 
