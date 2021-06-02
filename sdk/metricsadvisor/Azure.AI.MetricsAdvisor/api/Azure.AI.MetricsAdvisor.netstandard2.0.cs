@@ -289,8 +289,8 @@ namespace Azure.AI.MetricsAdvisor.Administration
         public virtual System.Threading.Tasks.Task<Azure.Response> UpdateAlertConfigurationAsync(string alertConfigurationId, Azure.AI.MetricsAdvisor.Models.AnomalyAlertConfiguration alertConfiguration, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) { throw null; }
         public virtual Azure.Response UpdateDataFeed(string dataFeedId, Azure.AI.MetricsAdvisor.Models.DataFeed dataFeed, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) { throw null; }
         public virtual System.Threading.Tasks.Task<Azure.Response> UpdateDataFeedAsync(string dataFeedId, Azure.AI.MetricsAdvisor.Models.DataFeed dataFeed, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) { throw null; }
-        public virtual Azure.Response UpdateDetectionConfiguration(string detectionConfigurationId, Azure.AI.MetricsAdvisor.Models.AnomalyDetectionConfiguration detectionConfiguration, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) { throw null; }
-        public virtual System.Threading.Tasks.Task<Azure.Response> UpdateDetectionConfigurationAsync(string detectionConfigurationId, Azure.AI.MetricsAdvisor.Models.AnomalyDetectionConfiguration detectionConfiguration, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) { throw null; }
+        public virtual Azure.Response<Azure.AI.MetricsAdvisor.Models.AnomalyDetectionConfiguration> UpdateDetectionConfiguration(string detectionConfigurationId, Azure.AI.MetricsAdvisor.Models.AnomalyDetectionConfiguration detectionConfiguration, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) { throw null; }
+        public virtual System.Threading.Tasks.Task<Azure.Response<Azure.AI.MetricsAdvisor.Models.AnomalyDetectionConfiguration>> UpdateDetectionConfigurationAsync(string detectionConfigurationId, Azure.AI.MetricsAdvisor.Models.AnomalyDetectionConfiguration detectionConfiguration, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) { throw null; }
         public virtual Azure.Response UpdateHook(string hookId, Azure.AI.MetricsAdvisor.Models.NotificationHook hook, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) { throw null; }
         public virtual System.Threading.Tasks.Task<Azure.Response> UpdateHookAsync(string hookId, Azure.AI.MetricsAdvisor.Models.NotificationHook hook, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) { throw null; }
     }
@@ -513,11 +513,11 @@ namespace Azure.AI.MetricsAdvisor.Models
     public partial class ChangeThresholdCondition
     {
         public ChangeThresholdCondition(double changePercentage, int shiftPoint, bool isWithinRange, Azure.AI.MetricsAdvisor.Models.AnomalyDetectorDirection anomalyDetectorDirection, Azure.AI.MetricsAdvisor.Models.SuppressCondition suppressCondition) { }
-        public Azure.AI.MetricsAdvisor.Models.AnomalyDetectorDirection AnomalyDetectorDirection { get { throw null; } }
-        public double ChangePercentage { get { throw null; } }
-        public bool IsWithinRange { get { throw null; } }
-        public int ShiftPoint { get { throw null; } }
-        public Azure.AI.MetricsAdvisor.Models.SuppressCondition SuppressCondition { get { throw null; } }
+        public Azure.AI.MetricsAdvisor.Models.AnomalyDetectorDirection AnomalyDetectorDirection { get { throw null; } set { } }
+        public double ChangePercentage { get { throw null; } set { } }
+        public bool IsWithinRange { get { throw null; } set { } }
+        public int ShiftPoint { get { throw null; } set { } }
+        public Azure.AI.MetricsAdvisor.Models.SuppressCondition SuppressCondition { get { throw null; } set { } }
     }
     public partial class DataFeed
     {
@@ -851,9 +851,9 @@ namespace Azure.AI.MetricsAdvisor.Models
     public partial class HardThresholdCondition
     {
         public HardThresholdCondition(Azure.AI.MetricsAdvisor.Models.AnomalyDetectorDirection anomalyDetectorDirection, Azure.AI.MetricsAdvisor.Models.SuppressCondition suppressCondition) { }
-        public Azure.AI.MetricsAdvisor.Models.AnomalyDetectorDirection AnomalyDetectorDirection { get { throw null; } }
+        public Azure.AI.MetricsAdvisor.Models.AnomalyDetectorDirection AnomalyDetectorDirection { get { throw null; } set { } }
         public double? LowerBound { get { throw null; } set { } }
-        public Azure.AI.MetricsAdvisor.Models.SuppressCondition SuppressCondition { get { throw null; } }
+        public Azure.AI.MetricsAdvisor.Models.SuppressCondition SuppressCondition { get { throw null; } set { } }
         public double? UpperBound { get { throw null; } set { } }
     }
     public partial class IncidentRootCause
@@ -1114,9 +1114,9 @@ namespace Azure.AI.MetricsAdvisor.Models
     public partial class SmartDetectionCondition
     {
         public SmartDetectionCondition(double sensitivity, Azure.AI.MetricsAdvisor.Models.AnomalyDetectorDirection anomalyDetectorDirection, Azure.AI.MetricsAdvisor.Models.SuppressCondition suppressCondition) { }
-        public Azure.AI.MetricsAdvisor.Models.AnomalyDetectorDirection AnomalyDetectorDirection { get { throw null; } }
-        public double Sensitivity { get { throw null; } }
-        public Azure.AI.MetricsAdvisor.Models.SuppressCondition SuppressCondition { get { throw null; } }
+        public Azure.AI.MetricsAdvisor.Models.AnomalyDetectorDirection AnomalyDetectorDirection { get { throw null; } set { } }
+        public double Sensitivity { get { throw null; } set { } }
+        public Azure.AI.MetricsAdvisor.Models.SuppressCondition SuppressCondition { get { throw null; } set { } }
     }
     [System.Runtime.InteropServices.StructLayoutAttribute(System.Runtime.InteropServices.LayoutKind.Sequential)]
     public readonly partial struct SnoozeScope : System.IEquatable<Azure.AI.MetricsAdvisor.Models.SnoozeScope>
@@ -1144,8 +1144,8 @@ namespace Azure.AI.MetricsAdvisor.Models
     public partial class SuppressCondition
     {
         public SuppressCondition(int minimumNumber, double minimumRatio) { }
-        public int MinimumNumber { get { throw null; } }
-        public double MinimumRatio { get { throw null; } }
+        public int MinimumNumber { get { throw null; } set { } }
+        public double MinimumRatio { get { throw null; } set { } }
     }
     public partial class TopNGroupScope
     {
