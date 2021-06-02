@@ -17,16 +17,15 @@ namespace Azure.AI.MetricsAdvisor.Models
         /// <summary>
         /// Initializes a new instance of the <see cref="ChangeThresholdCondition"/> class.
         /// </summary>
-        public ChangeThresholdCondition()
+        /// <param name="changePercentage">Compared to the previous point, the current point is an anomaly if the percentage of change is more than this value. </param>
+        /// <param name="shiftPoint">When set to N, sets as reference the data point that's N positions before the current point. Value must be at least 1.</param>
+        /// <param name="isWithinRange">Sets whether to detect data within the range or outside the range.</param>
+        /// <param name="anomalyDetectorDirection">A point is considered an anomaly only when the deviation occurs in the specified direction.</param>
+        /// <param name="suppressCondition">The <see cref="Models.SuppressCondition"/> to be applied to every unexpected data point.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="suppressCondition"/> is null.</exception>
+        public ChangeThresholdCondition(double changePercentage, int shiftPoint, bool isWithinRange, AnomalyDetectorDirection anomalyDetectorDirection, SuppressCondition suppressCondition)
         {
-        }
-
-        internal ChangeThresholdCondition(double changePercentage, int shiftPoint, bool isWithinRange, AnomalyDetectorDirection anomalyDetectorDirection, SuppressCondition suppressCondition)
-        {
-            if (suppressCondition == null)
-            {
-                throw new ArgumentNullException(nameof(suppressCondition));
-            }
+            Argument.AssertNotNull(suppressCondition, nameof(suppressCondition));
 
             ChangePercentage = changePercentage;
             ShiftPoint = shiftPoint;
@@ -39,24 +38,24 @@ namespace Azure.AI.MetricsAdvisor.Models
         /// When set to N, sets as reference the data point that's N positions before the current
         /// point. Value must be at least 1.
         /// </summary>
-        public int? ShiftPoint { get; set; }
+        public int ShiftPoint { get; set; }
 
         /// <summary>
         /// Compared to the previous point, the current point is an anomaly if the percentage of change is more than this value.
         /// </summary>
-        public double? ChangePercentage { get; set; }
+        public double ChangePercentage { get; set; }
 
         /// <summary>
         /// Sets whether to detect data within the range or outside the range. If you want to detect fluctuations, select false.
         /// If you want to detect flat lines in your data, select true.
         /// </summary>
         [CodeGenMember("WithinRange")]
-        public bool? IsWithinRange { get; set; }
+        public bool IsWithinRange { get; set; }
 
         /// <summary>
         /// A point is considered an anomaly only when the deviation occurs in the specified direction.
         /// </summary>
-        public AnomalyDetectorDirection? AnomalyDetectorDirection { get; set; }
+        public AnomalyDetectorDirection AnomalyDetectorDirection { get; set; }
 
         /// <summary>
         /// The <see cref="Models.SuppressCondition"/> to be applied to every unexpected data point.
