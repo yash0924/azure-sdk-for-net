@@ -25,15 +25,8 @@ namespace Azure.AI.MetricsAdvisor.Models
                 writer.WritePropertyName("upperBound");
                 writer.WriteNumberValue(UpperBound.Value);
             }
-            if (AnomalyDetectorDirection != null)
-            {
-                writer.WritePropertyName("anomalyDetectorDirection");
-                writer.WriteStringValue(AnomalyDetectorDirection.Value.ToString());
-            }
-            else
-            {
-                writer.WriteNull("anomalyDetectorDirection");
-            }
+            writer.WritePropertyName("anomalyDetectorDirection");
+            writer.WriteStringValue(AnomalyDetectorDirection.ToString());
             writer.WritePropertyName("suppressCondition");
             writer.WriteObjectValue(SuppressCondition);
             writer.WriteEndObject();
@@ -43,7 +36,7 @@ namespace Azure.AI.MetricsAdvisor.Models
         {
             Optional<double> lowerBound = default;
             Optional<double> upperBound = default;
-            AnomalyDetectorDirection? anomalyDetectorDirection = default;
+            AnomalyDetectorDirection anomalyDetectorDirection = default;
             SuppressCondition suppressCondition = default;
             foreach (var property in element.EnumerateObject())
             {
@@ -69,11 +62,6 @@ namespace Azure.AI.MetricsAdvisor.Models
                 }
                 if (property.NameEquals("anomalyDetectorDirection"))
                 {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        anomalyDetectorDirection = null;
-                        continue;
-                    }
                     anomalyDetectorDirection = new AnomalyDetectorDirection(property.Value.GetString());
                     continue;
                 }

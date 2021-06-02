@@ -15,24 +15,10 @@ namespace Azure.AI.MetricsAdvisor.Models
         void IUtf8JsonSerializable.Write(Utf8JsonWriter writer)
         {
             writer.WriteStartObject();
-            if (Sensitivity != null)
-            {
-                writer.WritePropertyName("sensitivity");
-                writer.WriteNumberValue(Sensitivity.Value);
-            }
-            else
-            {
-                writer.WriteNull("sensitivity");
-            }
-            if (AnomalyDetectorDirection != null)
-            {
-                writer.WritePropertyName("anomalyDetectorDirection");
-                writer.WriteStringValue(AnomalyDetectorDirection.Value.ToString());
-            }
-            else
-            {
-                writer.WriteNull("anomalyDetectorDirection");
-            }
+            writer.WritePropertyName("sensitivity");
+            writer.WriteNumberValue(Sensitivity);
+            writer.WritePropertyName("anomalyDetectorDirection");
+            writer.WriteStringValue(AnomalyDetectorDirection.ToString());
             writer.WritePropertyName("suppressCondition");
             writer.WriteObjectValue(SuppressCondition);
             writer.WriteEndObject();
@@ -40,28 +26,18 @@ namespace Azure.AI.MetricsAdvisor.Models
 
         internal static SmartDetectionCondition DeserializeSmartDetectionCondition(JsonElement element)
         {
-            double? sensitivity = default;
-            AnomalyDetectorDirection? anomalyDetectorDirection = default;
+            double sensitivity = default;
+            AnomalyDetectorDirection anomalyDetectorDirection = default;
             SuppressCondition suppressCondition = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("sensitivity"))
                 {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        sensitivity = null;
-                        continue;
-                    }
                     sensitivity = property.Value.GetDouble();
                     continue;
                 }
                 if (property.NameEquals("anomalyDetectorDirection"))
                 {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        anomalyDetectorDirection = null;
-                        continue;
-                    }
                     anomalyDetectorDirection = new AnomalyDetectorDirection(property.Value.GetString());
                     continue;
                 }

@@ -15,42 +15,14 @@ namespace Azure.AI.MetricsAdvisor.Models
         void IUtf8JsonSerializable.Write(Utf8JsonWriter writer)
         {
             writer.WriteStartObject();
-            if (ChangePercentage != null)
-            {
-                writer.WritePropertyName("changePercentage");
-                writer.WriteNumberValue(ChangePercentage.Value);
-            }
-            else
-            {
-                writer.WriteNull("changePercentage");
-            }
-            if (ShiftPoint != null)
-            {
-                writer.WritePropertyName("shiftPoint");
-                writer.WriteNumberValue(ShiftPoint.Value);
-            }
-            else
-            {
-                writer.WriteNull("shiftPoint");
-            }
-            if (IsWithinRange != null)
-            {
-                writer.WritePropertyName("withinRange");
-                writer.WriteBooleanValue(IsWithinRange.Value);
-            }
-            else
-            {
-                writer.WriteNull("withinRange");
-            }
-            if (AnomalyDetectorDirection != null)
-            {
-                writer.WritePropertyName("anomalyDetectorDirection");
-                writer.WriteStringValue(AnomalyDetectorDirection.Value.ToString());
-            }
-            else
-            {
-                writer.WriteNull("anomalyDetectorDirection");
-            }
+            writer.WritePropertyName("changePercentage");
+            writer.WriteNumberValue(ChangePercentage);
+            writer.WritePropertyName("shiftPoint");
+            writer.WriteNumberValue(ShiftPoint);
+            writer.WritePropertyName("withinRange");
+            writer.WriteBooleanValue(IsWithinRange);
+            writer.WritePropertyName("anomalyDetectorDirection");
+            writer.WriteStringValue(AnomalyDetectorDirection.ToString());
             writer.WritePropertyName("suppressCondition");
             writer.WriteObjectValue(SuppressCondition);
             writer.WriteEndObject();
@@ -58,50 +30,30 @@ namespace Azure.AI.MetricsAdvisor.Models
 
         internal static ChangeThresholdCondition DeserializeChangeThresholdCondition(JsonElement element)
         {
-            double? changePercentage = default;
-            int? shiftPoint = default;
-            bool? withinRange = default;
-            AnomalyDetectorDirection? anomalyDetectorDirection = default;
+            double changePercentage = default;
+            int shiftPoint = default;
+            bool withinRange = default;
+            AnomalyDetectorDirection anomalyDetectorDirection = default;
             SuppressCondition suppressCondition = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("changePercentage"))
                 {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        changePercentage = null;
-                        continue;
-                    }
                     changePercentage = property.Value.GetDouble();
                     continue;
                 }
                 if (property.NameEquals("shiftPoint"))
                 {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        shiftPoint = null;
-                        continue;
-                    }
                     shiftPoint = property.Value.GetInt32();
                     continue;
                 }
                 if (property.NameEquals("withinRange"))
                 {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        withinRange = null;
-                        continue;
-                    }
                     withinRange = property.Value.GetBoolean();
                     continue;
                 }
                 if (property.NameEquals("anomalyDetectorDirection"))
                 {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        anomalyDetectorDirection = null;
-                        continue;
-                    }
                     anomalyDetectorDirection = new AnomalyDetectorDirection(property.Value.GetString());
                     continue;
                 }
