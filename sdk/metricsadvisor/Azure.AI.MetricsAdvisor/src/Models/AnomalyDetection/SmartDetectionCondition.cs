@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using System;
+using Azure.Core;
 
 namespace Azure.AI.MetricsAdvisor.Models
 {
@@ -11,18 +12,18 @@ namespace Azure.AI.MetricsAdvisor.Models
     public partial class SmartDetectionCondition
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="SmartDetectionCondition"/> class.
+        /// Initializes a new instance of the <see cref="HardThresholdCondition"/> class.
         /// </summary>
-        public SmartDetectionCondition()
+        /// <param name="sensitivity">
+        /// A numerical value to adjust the tolerance of the anomaly detection with a range of (0, 100].
+        /// Visually, the higher the value, the narrower the upper and lower boundaries around the time series.
+        /// </param>
+        /// <param name="anomalyDetectorDirection"> detection direction. </param>
+        /// <param name="suppressCondition">The <see cref="Models.SuppressCondition"/> to be applied to every unexpected data point.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="suppressCondition"/> is null.</exception>
+        public SmartDetectionCondition(double sensitivity, AnomalyDetectorDirection anomalyDetectorDirection, SuppressCondition suppressCondition)
         {
-        }
-
-        internal SmartDetectionCondition(double sensitivity, AnomalyDetectorDirection anomalyDetectorDirection, SuppressCondition suppressCondition)
-        {
-            if (suppressCondition == null)
-            {
-                throw new ArgumentNullException(nameof(suppressCondition));
-            }
+            Argument.AssertNotNull(suppressCondition, nameof(suppressCondition));
 
             Sensitivity = sensitivity;
             AnomalyDetectorDirection = anomalyDetectorDirection;
@@ -33,12 +34,12 @@ namespace Azure.AI.MetricsAdvisor.Models
         /// A numerical value to adjust the tolerance of the anomaly detection with a range of (0, 100].
         /// Visually, the higher the value, the narrower the upper and lower boundaries around the time series.
         /// </summary>
-        public double? Sensitivity { get; set; }
+        public double Sensitivity { get; set; }
 
         /// <summary>
         /// A point is an anomaly only when the deviation occurs in the specified direction.
         /// </summary>
-        public AnomalyDetectorDirection? AnomalyDetectorDirection { get; set; }
+        public AnomalyDetectorDirection AnomalyDetectorDirection { get; set; }
 
         /// <summary>
         /// The <see cref="Models.SuppressCondition"/> to be applied to every unexpected data point.

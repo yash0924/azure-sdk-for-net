@@ -40,19 +40,14 @@ namespace Azure.AI.MetricsAdvisor.Samples
 
             var detectCondition = detectionConfiguration.WholeSeriesDetectionConditions;
 
-            detectCondition.HardThresholdCondition = new HardThresholdCondition()
+            var hardSuppress = new SuppressCondition(1, 100);
+            detectCondition.HardThresholdCondition = new HardThresholdCondition(AnomalyDetectorDirection.Down, hardSuppress)
             {
-                AnomalyDetectorDirection = AnomalyDetectorDirection.Down,
-                LowerBound = 5.0,
-                SuppressCondition = new SuppressCondition() { MinimumNumber = 1, MinimumRatio = 100 }
+                LowerBound = 5.0
             };
 
-            detectCondition.SmartDetectionCondition = new SmartDetectionCondition()
-            {
-                Sensitivity = 10.0,
-                AnomalyDetectorDirection = AnomalyDetectorDirection.Up,
-                SuppressCondition = new SuppressCondition() { MinimumNumber = 4, MinimumRatio = 50 }
-            };
+            var smartSuppress = new SuppressCondition(4, 50);
+            detectCondition.SmartDetectionCondition = new SmartDetectionCondition(10.0, AnomalyDetectorDirection.Up, smartSuppress);
 
             detectCondition.CrossConditionsOperator = DetectionConditionsOperator.Or;
 

@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using System;
+using Azure.Core;
 
 namespace Azure.AI.MetricsAdvisor.Models
 {
@@ -15,16 +16,12 @@ namespace Azure.AI.MetricsAdvisor.Models
         /// <summary>
         /// Initializes a new instance of the <see cref="HardThresholdCondition"/> class.
         /// </summary>
-        public HardThresholdCondition()
+        /// <param name="anomalyDetectorDirection">The direction of the specified boundaries. Depending on its value, <see cref="LowerBound"/> and/or <see cref="UpperBound"/> may be required.</param>
+        /// <param name="suppressCondition">The <see cref="Models.SuppressCondition"/> to be applied to every unexpected data point.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="suppressCondition"/> is null.</exception>
+        public HardThresholdCondition(AnomalyDetectorDirection anomalyDetectorDirection, SuppressCondition suppressCondition)
         {
-        }
-
-        internal HardThresholdCondition(AnomalyDetectorDirection anomalyDetectorDirection, SuppressCondition suppressCondition)
-        {
-            if (suppressCondition == null)
-            {
-                throw new ArgumentNullException(nameof(suppressCondition));
-            }
+            Argument.AssertNotNull(suppressCondition, nameof(suppressCondition));
 
             AnomalyDetectorDirection = anomalyDetectorDirection;
             SuppressCondition = suppressCondition;
@@ -34,7 +31,7 @@ namespace Azure.AI.MetricsAdvisor.Models
         /// The direction of the specified boundaries. Depending on its value, <see cref="LowerBound"/>
         /// and/or <see cref="UpperBound"/> may be required.
         /// </summary>
-        public AnomalyDetectorDirection? AnomalyDetectorDirection { get; set; }
+        public AnomalyDetectorDirection AnomalyDetectorDirection { get; set; }
 
         /// <summary>
         /// The <see cref="Models.SuppressCondition"/> to be applied to every unexpected data point.
