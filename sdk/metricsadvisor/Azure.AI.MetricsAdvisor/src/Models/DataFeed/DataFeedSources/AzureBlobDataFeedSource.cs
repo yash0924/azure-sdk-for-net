@@ -86,7 +86,7 @@ namespace Azure.AI.MetricsAdvisor.Models
 
         /// <summary>
         /// </summary>
-        public AuthenticationType Authentication { get; set; }
+        public AuthenticationType? Authentication { get; set; }
 
         /// <summary>
         /// The name of the blob container.
