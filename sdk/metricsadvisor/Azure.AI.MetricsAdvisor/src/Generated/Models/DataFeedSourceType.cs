@@ -35,8 +35,6 @@ namespace Azure.AI.MetricsAdvisor.Models
         private const string MySqlValue = "MySql";
         private const string PostgreSqlValue = "PostgreSql";
         private const string SqlServerValue = "SqlServer";
-        /// <summary> AzureEventHubs. </summary>
-        public static DataFeedSourceType AzureEventHubs { get; } = new DataFeedSourceType(AzureEventHubsValue);
         /// <summary> AzureLogAnalytics. </summary>
         public static DataFeedSourceType AzureLogAnalytics { get; } = new DataFeedSourceType(AzureLogAnalyticsValue);
         /// <summary> Determines if two <see cref="DataFeedSourceType"/> values are the same. </summary>

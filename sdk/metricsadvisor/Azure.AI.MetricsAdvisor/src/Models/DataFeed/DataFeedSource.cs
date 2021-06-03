@@ -27,9 +27,11 @@ namespace Azure.AI.MetricsAdvisor.Models
                 AzureBlobDataFeed d => new AzureBlobDataFeedSource(d.DataSourceParameter),
                 AzureCosmosDBDataFeed d => new AzureCosmosDbDataFeedSource(d.DataSourceParameter),
                 AzureDataLakeStorageGen2DataFeed d => new AzureDataLakeStorageGen2DataFeedSource(d.DataSourceParameter),
+                AzureEventHubsDataFeed d => new AzureEventHubsDataFeedSource(d.DataSourceParameter),
                 AzureTableDataFeed d => new AzureTableDataFeedSource(d.DataSourceParameter),
                 InfluxDBDataFeed d => new InfluxDbDataFeedSource(d.DataSourceParameter),
                 AzureDataExplorerDataFeed d => new AzureDataExplorerDataFeedSource(d.DataSourceParameter),
+                AzureLogAnalyticsDataFeed d => new LogAnalyticsDataFeedSource(d.DataSourceParameter),
                 MySqlDataFeed d => new MySqlDataFeedSource(d.DataSourceParameter),
                 PostgreSqlDataFeed d => new PostgreSqlDataFeedSource(d.DataSourceParameter),
                 SQLServerDataFeed d => new SqlServerDataFeedSource(d.DataSourceParameter),
@@ -50,8 +52,10 @@ namespace Azure.AI.MetricsAdvisor.Models
                 AzureBlobParameter p => new AzureBlobDataFeed(name, granularityType, metricColumns, ingestionStartTime, p),
                 AzureCosmosDBParameter p => new AzureCosmosDBDataFeed(name, granularityType, metricColumns, ingestionStartTime, p),
                 AzureDataLakeStorageGen2Parameter p => new AzureDataLakeStorageGen2DataFeed(name, granularityType, metricColumns, ingestionStartTime, p),
+                AzureEventHubsParameter p => new AzureEventHubsDataFeed(name, granularityType, metricColumns, ingestionStartTime, p),
                 AzureTableParameter p => new AzureTableDataFeed(name, granularityType, metricColumns, ingestionStartTime, p),
                 InfluxDBParameter p => new InfluxDBDataFeed(name, granularityType, metricColumns, ingestionStartTime, p),
+                AzureLogAnalyticsParameter p => new AzureLogAnalyticsDataFeed(name, granularityType, metricColumns, ingestionStartTime, p),
                 SqlSourceParameter p when Type == DataFeedSourceType.AzureDataExplorer => new AzureDataExplorerDataFeed(name, granularityType, metricColumns, ingestionStartTime, p),
                 SqlSourceParameter p when Type == DataFeedSourceType.MySql => new MySqlDataFeed(name, granularityType, metricColumns, ingestionStartTime, p),
                 SqlSourceParameter p when Type == DataFeedSourceType.PostgreSql => new PostgreSqlDataFeed(name, granularityType, metricColumns, ingestionStartTime, p),
@@ -83,6 +87,14 @@ namespace Azure.AI.MetricsAdvisor.Models
                 AzureDataLakeStorageGen2Parameter p => new AzureDataLakeStorageGen2DataFeedPatch()
                 {
                     DataSourceParameter = new() { FileSystemName = p.FileSystemName, AccountKey = p.AccountKey, AccountName = p.AccountName, DirectoryTemplate = p.DirectoryTemplate, FileTemplate = p.FileTemplate }
+                },
+                AzureEventHubsParameter p => new AzureEventHubsDataFeedPatch()
+                {
+                    DataSourceParameter = new() { ConnectionString = p.ConnectionString, ConsumerGroup = p.ConsumerGroup }
+                },
+                AzureLogAnalyticsParameter p => new AzureLogAnalyticsDataFeedPatch()
+                {
+                    DataSourceParameter = new() { WorkspaceId = p.WorkspaceId, Query = p.Query, ClientId = p.ClientId, ClientSecret = p.ClientSecret, TenantId = p.TenantId }
                 },
                 AzureTableParameter p => new AzureTableDataFeedPatch()
                 {
