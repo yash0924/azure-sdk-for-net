@@ -11,7 +11,7 @@ using System.ComponentModel;
 namespace Azure.AI.MetricsAdvisor.Models
 {
     /// <summary> data used to implement value filter. </summary>
-    internal readonly partial struct ValueType : IEquatable<ValueType>
+    public readonly partial struct ValueType : IEquatable<ValueType>
     {
         private readonly string _value;
 
