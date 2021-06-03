@@ -358,6 +358,7 @@ namespace Azure.AI.MetricsAdvisor.Models
     public partial class AnomalyIncident
     {
         internal AnomalyIncident() { }
+        public string DataFeedId { get { throw null; } }
         public string DetectionConfigurationId { get { throw null; } }
         public Azure.AI.MetricsAdvisor.Models.DimensionKey DimensionKey { get { throw null; } }
         public double? ExpectedValueOfRootNode { get { throw null; } }
@@ -446,47 +447,77 @@ namespace Azure.AI.MetricsAdvisor.Models
     public partial class AzureApplicationInsightsDataFeedSource : Azure.AI.MetricsAdvisor.Models.DataFeedSource
     {
         public AzureApplicationInsightsDataFeedSource(string applicationId, string apiKey, string azureCloud, string query) { }
-        public string ApplicationId { get { throw null; } }
-        public string AzureCloud { get { throw null; } }
-        public string Query { get { throw null; } }
+        public string ApplicationId { get { throw null; } set { } }
+        public string AzureCloud { get { throw null; } set { } }
+        public string Query { get { throw null; } set { } }
+        public void UpdateApiKey(string apiKey) { }
     }
     public partial class AzureBlobDataFeedSource : Azure.AI.MetricsAdvisor.Models.DataFeedSource
     {
         public AzureBlobDataFeedSource(string connectionString, string container, string blobTemplate) { }
-        public string BlobTemplate { get { throw null; } }
-        public string Container { get { throw null; } }
+        public Azure.AI.MetricsAdvisor.Models.AzureBlobDataFeedSource.AuthenticationType? Authentication { get { throw null; } set { } }
+        public string BlobTemplate { get { throw null; } set { } }
+        public string Container { get { throw null; } set { } }
+        public void UpdateConnectionString(string connectionString) { }
+        public enum AuthenticationType
+        {
+            Basic = 0,
+            ManagedIdentity = 1,
+        }
     }
     public partial class AzureCosmosDbDataFeedSource : Azure.AI.MetricsAdvisor.Models.DataFeedSource
     {
         public AzureCosmosDbDataFeedSource(string connectionString, string sqlQuery, string database, string collectionId) { }
-        public string CollectionId { get { throw null; } }
-        public string Database { get { throw null; } }
-        public string SqlQuery { get { throw null; } }
+        public string CollectionId { get { throw null; } set { } }
+        public string Database { get { throw null; } set { } }
+        public string SqlQuery { get { throw null; } set { } }
+        public void UpdateConnectionString(string connectionString) { }
     }
     public partial class AzureDataExplorerDataFeedSource : Azure.AI.MetricsAdvisor.Models.DataFeedSource
     {
         public AzureDataExplorerDataFeedSource(string connectionString, string query) { }
-        public string Query { get { throw null; } }
+        public Azure.AI.MetricsAdvisor.Models.AzureDataExplorerDataFeedSource.AuthenticationType? Authentication { get { throw null; } set { } }
+        public string DatasourceCredentialId { get { throw null; } set { } }
+        public string Query { get { throw null; } set { } }
+        public void UpdateConnectionString(string connectionString) { }
+        public enum AuthenticationType
+        {
+            Basic = 0,
+            ManagedIdentity = 1,
+            ServicePrincipal = 2,
+            ServicePrincipalInKeyVault = 3,
+        }
     }
     public partial class AzureDataLakeStorageGen2DataFeedSource : Azure.AI.MetricsAdvisor.Models.DataFeedSource
     {
         public AzureDataLakeStorageGen2DataFeedSource(string accountName, string accountKey, string fileSystemName, string directoryTemplate, string fileTemplate) { }
-        public string AccountName { get { throw null; } }
-        public string DirectoryTemplate { get { throw null; } }
-        public string FileSystemName { get { throw null; } }
-        public string FileTemplate { get { throw null; } }
+        public string AccountName { get { throw null; } set { } }
+        public Azure.AI.MetricsAdvisor.Models.AzureDataLakeStorageGen2DataFeedSource.AuthenticationType? Authentication { get { throw null; } set { } }
+        public string DatasourceCredentialId { get { throw null; } set { } }
+        public string DirectoryTemplate { get { throw null; } set { } }
+        public string FileSystemName { get { throw null; } set { } }
+        public string FileTemplate { get { throw null; } set { } }
+        public void UpdateAccountKey(string accountKey) { }
+        public enum AuthenticationType
+        {
+            Basic = 0,
+            SharedKeyCredential = 1,
+            ServicePrincipal = 2,
+            ServicePrincipalInKeyVault = 3,
+        }
     }
     public partial class AzureEventHubsDataFeedSource : Azure.AI.MetricsAdvisor.Models.DataFeedSource
     {
         public AzureEventHubsDataFeedSource(string connectionString, string consumerGroup) { }
-        public string ConnectionString { get { throw null; } }
-        public string ConsumerGroup { get { throw null; } }
+        public string ConsumerGroup { get { throw null; } set { } }
+        public void UpdateConnectionString(string connectionString) { }
     }
     public partial class AzureTableDataFeedSource : Azure.AI.MetricsAdvisor.Models.DataFeedSource
     {
         public AzureTableDataFeedSource(string connectionString, string table, string query) { }
-        public string Query { get { throw null; } }
-        public string Table { get { throw null; } }
+        public string Query { get { throw null; } set { } }
+        public string Table { get { throw null; } set { } }
+        public void UpdateConnectionString(string connectionString) { }
     }
     [System.Runtime.InteropServices.StructLayoutAttribute(System.Runtime.InteropServices.LayoutKind.Sequential)]
     public readonly partial struct BoundaryDirection : System.IEquatable<Azure.AI.MetricsAdvisor.Models.BoundaryDirection>
@@ -784,6 +815,7 @@ namespace Azure.AI.MetricsAdvisor.Models
         internal DataPointAnomaly() { }
         public string AnomalyDetectionConfigurationId { get { throw null; } }
         public System.DateTimeOffset? CreatedTime { get { throw null; } }
+        public string DataFeedId { get { throw null; } }
         public double? ExpectedValue { get { throw null; } }
         public string MetricId { get { throw null; } }
         public System.DateTimeOffset? ModifiedTime { get { throw null; } }
@@ -888,9 +920,11 @@ namespace Azure.AI.MetricsAdvisor.Models
     public partial class InfluxDbDataFeedSource : Azure.AI.MetricsAdvisor.Models.DataFeedSource
     {
         public InfluxDbDataFeedSource(string connectionString, string database, string username, string password, string query) { }
-        public string Database { get { throw null; } }
-        public string Query { get { throw null; } }
-        public string Username { get { throw null; } }
+        public string Database { get { throw null; } set { } }
+        public string Query { get { throw null; } set { } }
+        public string Username { get { throw null; } set { } }
+        public void UpdateConnectionString(string connectionString) { }
+        public void UpdatePassword(string password) { }
     }
     [System.Runtime.InteropServices.StructLayoutAttribute(System.Runtime.InteropServices.LayoutKind.Sequential)]
     public readonly partial struct IngestionStatusType : System.IEquatable<Azure.AI.MetricsAdvisor.Models.IngestionStatusType>
@@ -915,6 +949,16 @@ namespace Azure.AI.MetricsAdvisor.Models
         public static implicit operator Azure.AI.MetricsAdvisor.Models.IngestionStatusType (string value) { throw null; }
         public static bool operator !=(Azure.AI.MetricsAdvisor.Models.IngestionStatusType left, Azure.AI.MetricsAdvisor.Models.IngestionStatusType right) { throw null; }
         public override string ToString() { throw null; }
+    }
+    public partial class LogAnalyticsDataFeedSource : Azure.AI.MetricsAdvisor.Models.DataFeedSource
+    {
+        public LogAnalyticsDataFeedSource(string workspaceId, string query) { }
+        public LogAnalyticsDataFeedSource(string workspaceId, string query, string clientId, string clientSecret, string tenantId) { }
+        public string ClientId { get { throw null; } set { } }
+        public string Query { get { throw null; } set { } }
+        public string TenantId { get { throw null; } set { } }
+        public string WorkspaceId { get { throw null; } set { } }
+        public void UpdateClientSecret(string clientSecret) { }
     }
     public partial class MetricAnomalyAlertConditions
     {
@@ -1002,6 +1046,7 @@ namespace Azure.AI.MetricsAdvisor.Models
         public Azure.AI.MetricsAdvisor.Models.BoundaryDirection Direction { get { throw null; } set { } }
         public double? LowerBound { get { throw null; } set { } }
         public bool? TriggerForMissing { get { throw null; } set { } }
+        public Azure.AI.MetricsAdvisor.Models.ValueType? Type { get { throw null; } set { } }
         public double? UpperBound { get { throw null; } set { } }
     }
     public partial class MetricChangePointFeedback : Azure.AI.MetricsAdvisor.Models.MetricFeedback
@@ -1080,13 +1125,15 @@ namespace Azure.AI.MetricsAdvisor.Models
     public partial class MongoDbDataFeedSource : Azure.AI.MetricsAdvisor.Models.DataFeedSource
     {
         public MongoDbDataFeedSource(string connectionString, string database, string command) { }
-        public string Command { get { throw null; } }
-        public string Database { get { throw null; } }
+        public string Command { get { throw null; } set { } }
+        public string Database { get { throw null; } set { } }
+        public void UpdateConnectionString(string connectionString) { }
     }
     public partial class MySqlDataFeedSource : Azure.AI.MetricsAdvisor.Models.DataFeedSource
     {
         public MySqlDataFeedSource(string connectionString, string query) { }
-        public string Query { get { throw null; } }
+        public string Query { get { throw null; } set { } }
+        public void UpdateConnectionString(string connectionString) { }
     }
     public partial class NotificationHook
     {
@@ -1118,7 +1165,8 @@ namespace Azure.AI.MetricsAdvisor.Models
     public partial class PostgreSqlDataFeedSource : Azure.AI.MetricsAdvisor.Models.DataFeedSource
     {
         public PostgreSqlDataFeedSource(string connectionString, string query) { }
-        public string Query { get { throw null; } }
+        public string Query { get { throw null; } set { } }
+        public void UpdateConnectionString(string connectionString) { }
     }
     public partial class ServicePrincipalDatasourceCredential : Azure.AI.MetricsAdvisor.Models.DatasourceCredential
     {
@@ -1176,7 +1224,18 @@ namespace Azure.AI.MetricsAdvisor.Models
     public partial class SqlServerDataFeedSource : Azure.AI.MetricsAdvisor.Models.DataFeedSource
     {
         public SqlServerDataFeedSource(string connectionString, string query) { }
-        public string Query { get { throw null; } }
+        public Azure.AI.MetricsAdvisor.Models.SqlServerDataFeedSource.AuthenticationType? Authentication { get { throw null; } set { } }
+        public string DatasourceCredentialId { get { throw null; } set { } }
+        public string Query { get { throw null; } set { } }
+        public void UpdateConnectionString(string connectionString) { }
+        public enum AuthenticationType
+        {
+            Basic = 0,
+            ManagedIdentity = 1,
+            SqlConnectionString = 2,
+            ServicePrincipal = 3,
+            ServicePrincipalInKeyVault = 4,
+        }
     }
     public partial class SuppressCondition
     {
@@ -1190,6 +1249,24 @@ namespace Azure.AI.MetricsAdvisor.Models
         public int MinimumTopCount { get { throw null; } set { } }
         public int Period { get { throw null; } set { } }
         public int Top { get { throw null; } set { } }
+    }
+    [System.Runtime.InteropServices.StructLayoutAttribute(System.Runtime.InteropServices.LayoutKind.Sequential)]
+    public readonly partial struct ValueType : System.IEquatable<Azure.AI.MetricsAdvisor.Models.ValueType>
+    {
+        private readonly object _dummy;
+        private readonly int _dummyPrimitive;
+        public ValueType(string value) { throw null; }
+        public static Azure.AI.MetricsAdvisor.Models.ValueType Mean { get { throw null; } }
+        public static Azure.AI.MetricsAdvisor.Models.ValueType Value { get { throw null; } }
+        public bool Equals(Azure.AI.MetricsAdvisor.Models.ValueType other) { throw null; }
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never)]
+        public override bool Equals(object obj) { throw null; }
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never)]
+        public override int GetHashCode() { throw null; }
+        public static bool operator ==(Azure.AI.MetricsAdvisor.Models.ValueType left, Azure.AI.MetricsAdvisor.Models.ValueType right) { throw null; }
+        public static implicit operator Azure.AI.MetricsAdvisor.Models.ValueType (string value) { throw null; }
+        public static bool operator !=(Azure.AI.MetricsAdvisor.Models.ValueType left, Azure.AI.MetricsAdvisor.Models.ValueType right) { throw null; }
+        public override string ToString() { throw null; }
     }
     public partial class WebNotificationHook : Azure.AI.MetricsAdvisor.Models.NotificationHook
     {
