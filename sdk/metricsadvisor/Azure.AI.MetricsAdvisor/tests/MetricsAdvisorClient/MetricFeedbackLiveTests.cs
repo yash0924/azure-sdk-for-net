@@ -289,7 +289,7 @@ namespace Azure.AI.MetricsAdvisor.Tests
                 FeedbackType = FeedbackType.Comment,
             };
 
-            options.Filter.AddDimensionColumn("city", "Delhi");
+            options.DimensionFilter.AddDimensionColumn("city", "Delhi");
 
             var feedbackCount = 0;
 

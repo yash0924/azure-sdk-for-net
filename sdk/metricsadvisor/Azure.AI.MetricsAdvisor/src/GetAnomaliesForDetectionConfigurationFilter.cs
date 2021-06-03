@@ -19,7 +19,7 @@ namespace Azure.AI.MetricsAdvisor
         /// </summary>
         public GetAnomaliesForDetectionConfigurationFilter()
         {
-            SeriesGroupKeys = new ChangeTrackingList<DimensionKey>();
+            SeriesKeys = new ChangeTrackingList<DimensionKey>();
         }
 
         /// <summary>
@@ -31,14 +31,14 @@ namespace Azure.AI.MetricsAdvisor
         {
             MinimumSeverity = minimumSeverity;
             MaximumSeverity = maximumSeverity;
-            SeriesGroupKeys = new ChangeTrackingList<DimensionKey>();
+            SeriesKeys = new ChangeTrackingList<DimensionKey>();
         }
 
         /// <summary>
         /// Filters the result by series. Only anomalies detected in the time series groups specified will
         /// be returned.
         /// </summary>
-        public IList<DimensionKey> SeriesGroupKeys { get; }
+        public IList<DimensionKey> SeriesKeys { get; }
 
         /// <summary>
         /// The minimum severity level an anomaly must have to be returned.
@@ -59,7 +59,7 @@ namespace Azure.AI.MetricsAdvisor
                 filterCondition.SeverityFilter = new SeverityFilterCondition(MinimumSeverity.Value, MaximumSeverity.Value);
             }
 
-            foreach (DimensionKey dimensionKey in SeriesGroupKeys)
+            foreach (DimensionKey dimensionKey in SeriesKeys)
             {
                 filterCondition.DimensionFilter.Add(dimensionKey.Clone());
             }

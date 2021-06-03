@@ -69,8 +69,8 @@ namespace Azure.AI.MetricsAdvisor.Tests
             var groupKey2 = new DimensionKey();
             groupKey2.AddDimensionColumn("city", "Kolkata");
 
-            options.Filter.SeriesGroupKeys.Add(groupKey1);
-            options.Filter.SeriesGroupKeys.Add(groupKey2);
+            options.Filter.SeriesKeys.Add(groupKey1);
+            options.Filter.SeriesKeys.Add(groupKey2);
 
             var anomalyCount = 0;
 
@@ -152,8 +152,8 @@ namespace Azure.AI.MetricsAdvisor.Tests
             var groupKey2 = new DimensionKey();
             groupKey2.AddDimensionColumn("city", "Kolkata");
 
-            options.DimensionsToFilter.Add(groupKey1);
-            options.DimensionsToFilter.Add(groupKey2);
+            options.DimensionsFilter.Add(groupKey1);
+            options.DimensionsFilter.Add(groupKey2);
 
             var incidentCount = 0;
 
@@ -224,7 +224,7 @@ namespace Azure.AI.MetricsAdvisor.Tests
             groupKey.AddDimensionColumn("city", "__SUM__");
             groupKey.AddDimensionColumn("category", "Grocery & Gourmet Food");
 
-            options.DimensionsToFilter.Add(groupKey);
+            options.DimensionsFilter.Add(groupKey);
 
             await foreach (AnomalyIncident currentIncident in client.GetIncidentsAsync(DetectionConfigurationId, options))
             {
@@ -301,11 +301,11 @@ namespace Azure.AI.MetricsAdvisor.Tests
 
             MetricsAdvisorClient client = GetMetricsAdvisorClient(useTokenCredential);
 
-            var options = new GetValuesOfDimensionWithAnomaliesOptions(SamplingStartTime, SamplingEndTime);
+            var options = new GetAnomalyDimensionValuesOptions(SamplingStartTime, SamplingEndTime);
 
             var valueCount = 0;
 
-            await foreach (string value in client.GetValuesOfDimensionWithAnomaliesAsync(DetectionConfigurationId, dimensionName, options))
+            await foreach (string value in client.GetAnomalyDimensionValuesAsync(DetectionConfigurationId, dimensionName, options))
             {
                 Assert.That(value, Is.Not.Null.And.Not.Empty);
 
@@ -325,13 +325,13 @@ namespace Azure.AI.MetricsAdvisor.Tests
 
             MetricsAdvisorClient client = GetMetricsAdvisorClient();
 
-            var options = new GetValuesOfDimensionWithAnomaliesOptions(SamplingStartTime, SamplingEndTime);
+            var options = new GetAnomalyDimensionValuesOptions(SamplingStartTime, SamplingEndTime);
 
-            options.DimensionToFilter.AddDimensionColumn("category", "Handmade");
+            options.DimensionFilter.AddDimensionColumn("category", "Handmade");
 
             var valueCount = 0;
 
-            await foreach (string value in client.GetValuesOfDimensionWithAnomaliesAsync(DetectionConfigurationId, dimensionName, options))
+            await foreach (string value in client.GetAnomalyDimensionValuesAsync(DetectionConfigurationId, dimensionName, options))
             {
                 Assert.That(value, Is.Not.Null.And.Not.Empty);
 

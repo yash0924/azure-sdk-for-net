@@ -605,7 +605,7 @@ namespace Azure.AI.MetricsAdvisor.Tests
 
             var options = new GetHooksOptions()
             {
-                HookNameFilter = hookNameFilter
+                HookName = hookNameFilter
             };
 
             var hookCount = 0;

@@ -17,17 +17,17 @@ namespace Azure.AI.MetricsAdvisor
         /// </summary>
         public GetAllFeedbackOptions()
         {
-            Filter = new DimensionKey();
+            DimensionFilter = new DimensionKey();
         }
 
         /// <summary> The dimension filter. </summary>
-        internal FeedbackDimensionFilter DimensionFilter => Filter.Dimension.Count == 0 ? null : new FeedbackDimensionFilter(Filter.Dimension);
+        internal FeedbackDimensionFilter DimensionFilterInternal => DimensionFilter.Dimension.Count == 0 ? null : new FeedbackDimensionFilter(DimensionFilter.Dimension);
 
         /// <summary>
         /// Filters the result by series. Only feedbacks for the series in the time series group specified will
         /// be returned.
         /// </summary>
-        public DimensionKey Filter { get; }
+        public DimensionKey DimensionFilter { get; set; }
 
         /// <summary>
         /// Filters the result by <see cref="MetricFeedback.Type"/>.

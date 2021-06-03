@@ -12,7 +12,7 @@ namespace Azure.AI.MetricsAdvisor.Administration
         /// <summary>
         /// The name of the hook to filter on.
         /// </summary>
-        public string HookNameFilter { get; set; }
+        public string HookName { get; set; }
 
         /// <summary>
         /// If set, skips the first set of items returned. This property specifies the amount of items to

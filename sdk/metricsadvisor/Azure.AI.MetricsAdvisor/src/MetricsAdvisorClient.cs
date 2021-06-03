@@ -106,7 +106,7 @@ namespace Azure.AI.MetricsAdvisor
         /// <returns>An <see cref="AsyncPageable{T}"/> containing the collection of values the specified <see cref="DataFeedDimension"/> can assume.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="metricId"/> or <paramref name="dimensionName"/> is null.</exception>
         /// <exception cref="ArgumentException"><paramref name="metricId"/> or <paramref name="dimensionName"/> is empty; or <paramref name="metricId"/> is not a valid GUID.</exception>
-        public virtual AsyncPageable<string> GetDimensionValuesAsync(string metricId, string dimensionName, GetDimensionValuesOptions options = default, CancellationToken cancellationToken = default)
+        public virtual AsyncPageable<string> GetMetricDimensionValuesAsync(string metricId, string dimensionName, GetMetricDimensionValuesOptions options = default, CancellationToken cancellationToken = default)
         {
             Argument.AssertNotNullOrEmpty(metricId, nameof(metricId));
             Argument.AssertNotNullOrEmpty(dimensionName, nameof(dimensionName));
@@ -114,14 +114,14 @@ namespace Azure.AI.MetricsAdvisor
             Guid metricGuid = ClientCommon.ValidateGuid(metricId, nameof(metricId));
             MetricDimensionQueryOptions queryOptions = new MetricDimensionQueryOptions(dimensionName)
             {
-                DimensionValueFilter = options?.DimensionValueToFilter
+                DimensionValueFilter = options?.DimensionValueFilter
             };
             int? skip = options?.Skip;
             int? maxPageSize = options?.MaxPageSize;
 
             async Task<Page<string>> FirstPageFunc(int? pageSizeHint)
             {
-                using DiagnosticScope scope = _clientDiagnostics.CreateScope($"{nameof(MetricsAdvisorClient)}.{nameof(GetDimensionValues)}");
+                using DiagnosticScope scope = _clientDiagnostics.CreateScope($"{nameof(MetricsAdvisorClient)}.{nameof(GetMetricDimensionValues)}");
                 scope.Start();
 
                 try
@@ -138,7 +138,7 @@ namespace Azure.AI.MetricsAdvisor
 
             async Task<Page<string>> NextPageFunc(string nextLink, int? pageSizeHint)
             {
-                using DiagnosticScope scope = _clientDiagnostics.CreateScope($"{nameof(MetricsAdvisorClient)}.{nameof(GetDimensionValues)}");
+                using DiagnosticScope scope = _clientDiagnostics.CreateScope($"{nameof(MetricsAdvisorClient)}.{nameof(GetMetricDimensionValues)}");
                 scope.Start();
 
                 try
@@ -166,7 +166,7 @@ namespace Azure.AI.MetricsAdvisor
         /// <returns>A <see cref="Pageable{T}"/> containing the collection of values the specified <see cref="DataFeedDimension"/> can assume.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="metricId"/> or <paramref name="dimensionName"/> is null.</exception>
         /// <exception cref="ArgumentException"><paramref name="metricId"/> or <paramref name="dimensionName"/> is empty; or <paramref name="metricId"/> is not a valid GUID.</exception>
-        public virtual Pageable<string> GetDimensionValues(string metricId, string dimensionName, GetDimensionValuesOptions options = default, CancellationToken cancellationToken = default)
+        public virtual Pageable<string> GetMetricDimensionValues(string metricId, string dimensionName, GetMetricDimensionValuesOptions options = default, CancellationToken cancellationToken = default)
         {
             Argument.AssertNotNullOrEmpty(metricId, nameof(metricId));
             Argument.AssertNotNullOrEmpty(dimensionName, nameof(dimensionName));
@@ -174,14 +174,14 @@ namespace Azure.AI.MetricsAdvisor
             Guid metricGuid = ClientCommon.ValidateGuid(metricId, nameof(metricId));
             MetricDimensionQueryOptions queryOptions = new MetricDimensionQueryOptions(dimensionName)
             {
-                DimensionValueFilter = options?.DimensionValueToFilter
+                DimensionValueFilter = options?.DimensionValueFilter
             };
             int? skip = options?.Skip;
             int? maxPageSize = options?.MaxPageSize;
 
             Page<string> FirstPageFunc(int? pageSizeHint)
             {
-                using DiagnosticScope scope = _clientDiagnostics.CreateScope($"{nameof(MetricsAdvisorClient)}.{nameof(GetDimensionValues)}");
+                using DiagnosticScope scope = _clientDiagnostics.CreateScope($"{nameof(MetricsAdvisorClient)}.{nameof(GetMetricDimensionValues)}");
                 scope.Start();
 
                 try
@@ -198,7 +198,7 @@ namespace Azure.AI.MetricsAdvisor
 
             Page<string> NextPageFunc(string nextLink, int? pageSizeHint)
             {
-                using DiagnosticScope scope = _clientDiagnostics.CreateScope($"{nameof(MetricsAdvisorClient)}.{nameof(GetDimensionValues)}");
+                using DiagnosticScope scope = _clientDiagnostics.CreateScope($"{nameof(MetricsAdvisorClient)}.{nameof(GetMetricDimensionValues)}");
                 scope.Start();
 
                 try
@@ -238,7 +238,7 @@ namespace Azure.AI.MetricsAdvisor
 
             // Deep copy filter contents from options to queryOptions.
 
-            foreach (KeyValuePair<string, IList<string>> kvp in options.DimensionCombinationsToFilter)
+            foreach (KeyValuePair<string, IList<string>> kvp in options.DimensionCombinationsFilter)
             {
                 queryOptions.DimensionFilter.Add(kvp.Key, new List<string>(kvp.Value));
             }
@@ -302,7 +302,7 @@ namespace Azure.AI.MetricsAdvisor
 
             // Deep copy filter contents from options to queryOptions.
 
-            foreach (KeyValuePair<string, IList<string>> kvp in options.DimensionCombinationsToFilter)
+            foreach (KeyValuePair<string, IList<string>> kvp in options.DimensionCombinationsFilter)
             {
                 queryOptions.DimensionFilter.Add(kvp.Key, new List<string>(kvp.Value));
             }
@@ -360,7 +360,7 @@ namespace Azure.AI.MetricsAdvisor
             Argument.AssertNotNull(options, nameof(options)); // TODO: add validation for options.SeriesToFilter?
 
             Guid metricGuid = ClientCommon.ValidateGuid(metricId, nameof(metricId));
-            IEnumerable<IDictionary<string, string>> series = options.SeriesToFilter.Select(key => key.Dimension);
+            IEnumerable<IDictionary<string, string>> series = options.SeriesKeys.Select(key => key.Dimension);
             MetricDataQueryOptions queryOptions = new MetricDataQueryOptions(ClientCommon.NormalizeDateTimeOffset(options.StartTime), ClientCommon.NormalizeDateTimeOffset(options.EndTime), series);
 
             async Task<Page<MetricSeriesData>> FirstPageFunc(int? pageSizeHint)
@@ -399,7 +399,7 @@ namespace Azure.AI.MetricsAdvisor
             Argument.AssertNotNull(options, nameof(options)); // TODO: add validation for options.SeriesToFilter?
 
             Guid metricGuid = ClientCommon.ValidateGuid(metricId, nameof(metricId));
-            IEnumerable<IDictionary<string, string>> series = options.SeriesToFilter.Select(key => key.Dimension);
+            IEnumerable<IDictionary<string, string>> series = options.SeriesKeys.Select(key => key.Dimension);
             MetricDataQueryOptions queryOptions = new MetricDataQueryOptions(ClientCommon.NormalizeDateTimeOffset(options.StartTime), ClientCommon.NormalizeDateTimeOffset(options.EndTime), series);
 
             Page<MetricSeriesData> FirstPageFunc(int? pageSizeHint)
@@ -553,7 +553,7 @@ namespace Azure.AI.MetricsAdvisor
 
             MetricFeedbackFilter queryOptions = new MetricFeedbackFilter(metricGuid)
             {
-                DimensionFilter = options?.DimensionFilter,
+                DimensionFilter = options?.DimensionFilterInternal,
                 EndTime = options?.EndTime,
                 FeedbackType = options?.FeedbackType,
                 StartTime = options?.StartTime,
@@ -618,7 +618,7 @@ namespace Azure.AI.MetricsAdvisor
 
             MetricFeedbackFilter queryOptions = new MetricFeedbackFilter(metricGuid)
             {
-                DimensionFilter = options?.DimensionFilter,
+                DimensionFilter = options?.DimensionFilterInternal,
                 EndTime = options?.EndTime,
                 FeedbackType = options?.FeedbackType,
                 StartTime = options?.StartTime,
@@ -1193,7 +1193,7 @@ namespace Azure.AI.MetricsAdvisor
         /// <returns>An <see cref="AsyncPageable{T}"/> containing the values the specified dimension assumed for anomalous data points. Items are unique.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="detectionConfigurationId"/>, <paramref name="dimensionName"/>, or <paramref name="options"/> is null.</exception>
         /// <exception cref="ArgumentException"><paramref name="detectionConfigurationId"/> or <paramref name="dimensionName"/> is empty; or <paramref name="detectionConfigurationId"/> is not a valid GUID.</exception>
-        public virtual AsyncPageable<string> GetValuesOfDimensionWithAnomaliesAsync(string detectionConfigurationId, string dimensionName, GetValuesOfDimensionWithAnomaliesOptions options, CancellationToken cancellationToken = default)
+        public virtual AsyncPageable<string> GetAnomalyDimensionValuesAsync(string detectionConfigurationId, string dimensionName, GetAnomalyDimensionValuesOptions options, CancellationToken cancellationToken = default)
         {
             Argument.AssertNotNullOrEmpty(detectionConfigurationId, nameof(detectionConfigurationId));
             Argument.AssertNotNullOrEmpty(dimensionName, nameof(dimensionName));
@@ -1202,14 +1202,14 @@ namespace Azure.AI.MetricsAdvisor
             Guid detectionConfigurationGuid = ClientCommon.ValidateGuid(detectionConfigurationId, nameof(detectionConfigurationId));
             AnomalyDimensionQuery queryOptions = new AnomalyDimensionQuery(ClientCommon.NormalizeDateTimeOffset(options.StartTime), ClientCommon.NormalizeDateTimeOffset(options.EndTime), dimensionName)
             {
-                DimensionFilter = options.DimensionToFilter?.Clone()
+                DimensionFilter = options.DimensionFilter?.Clone()
             };
             int? skip = options.Skip;
             int? maxPageSize = options.MaxPageSize;
 
             async Task<Page<string>> FirstPageFunc(int? pageSizeHint)
             {
-                using DiagnosticScope scope = _clientDiagnostics.CreateScope($"{nameof(MetricsAdvisorClient)}.{nameof(GetValuesOfDimensionWithAnomalies)}");
+                using DiagnosticScope scope = _clientDiagnostics.CreateScope($"{nameof(MetricsAdvisorClient)}.{nameof(GetAnomalyDimensionValues)}");
                 scope.Start();
 
                 try
@@ -1226,7 +1226,7 @@ namespace Azure.AI.MetricsAdvisor
 
             async Task<Page<string>> NextPageFunc(string nextLink, int? pageSizeHint)
             {
-                using DiagnosticScope scope = _clientDiagnostics.CreateScope($"{nameof(MetricsAdvisorClient)}.{nameof(GetValuesOfDimensionWithAnomalies)}");
+                using DiagnosticScope scope = _clientDiagnostics.CreateScope($"{nameof(MetricsAdvisorClient)}.{nameof(GetAnomalyDimensionValues)}");
                 scope.Start();
 
                 try
@@ -1255,7 +1255,7 @@ namespace Azure.AI.MetricsAdvisor
         /// <returns>A <see cref="Pageable{T}"/> containing the values the specified dimension assumed for anomalous data points. Items are unique.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="detectionConfigurationId"/>, <paramref name="dimensionName"/>, or <paramref name="options"/> is null.</exception>
         /// <exception cref="ArgumentException"><paramref name="detectionConfigurationId"/> or <paramref name="dimensionName"/> is empty; or <paramref name="detectionConfigurationId"/> is not a valid GUID.</exception>
-        public virtual Pageable<string> GetValuesOfDimensionWithAnomalies(string detectionConfigurationId, string dimensionName, GetValuesOfDimensionWithAnomaliesOptions options, CancellationToken cancellationToken = default)
+        public virtual Pageable<string> GetAnomalyDimensionValues(string detectionConfigurationId, string dimensionName, GetAnomalyDimensionValuesOptions options, CancellationToken cancellationToken = default)
         {
             Argument.AssertNotNullOrEmpty(detectionConfigurationId, nameof(detectionConfigurationId));
             Argument.AssertNotNullOrEmpty(dimensionName, nameof(dimensionName));
@@ -1264,14 +1264,14 @@ namespace Azure.AI.MetricsAdvisor
             Guid detectionConfigurationGuid = ClientCommon.ValidateGuid(detectionConfigurationId, nameof(detectionConfigurationId));
             AnomalyDimensionQuery queryOptions = new AnomalyDimensionQuery(ClientCommon.NormalizeDateTimeOffset(options.StartTime), ClientCommon.NormalizeDateTimeOffset(options.EndTime), dimensionName)
             {
-                DimensionFilter = options.DimensionToFilter?.Clone()
+                DimensionFilter = options.DimensionFilter?.Clone()
             };
             int? skip = options.Skip;
             int? maxPageSize = options.MaxPageSize;
 
             Page<string> FirstPageFunc(int? pageSizeHint)
             {
-                using DiagnosticScope scope = _clientDiagnostics.CreateScope($"{nameof(MetricsAdvisorClient)}.{nameof(GetValuesOfDimensionWithAnomalies)}");
+                using DiagnosticScope scope = _clientDiagnostics.CreateScope($"{nameof(MetricsAdvisorClient)}.{nameof(GetAnomalyDimensionValues)}");
                 scope.Start();
 
                 try
@@ -1288,7 +1288,7 @@ namespace Azure.AI.MetricsAdvisor
 
             Page<string> NextPageFunc(string nextLink, int? pageSizeHint)
             {
-                using DiagnosticScope scope = _clientDiagnostics.CreateScope($"{nameof(MetricsAdvisorClient)}.{nameof(GetValuesOfDimensionWithAnomalies)}");
+                using DiagnosticScope scope = _clientDiagnostics.CreateScope($"{nameof(MetricsAdvisorClient)}.{nameof(GetAnomalyDimensionValues)}");
                 scope.Start();
 
                 try

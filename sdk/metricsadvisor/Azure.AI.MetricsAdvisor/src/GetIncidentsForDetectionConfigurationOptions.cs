@@ -25,7 +25,7 @@ namespace Azure.AI.MetricsAdvisor
         {
             StartTime = startTime;
             EndTime = endTime;
-            DimensionsToFilter = new ChangeTrackingList<DimensionKey>();
+            DimensionsFilter = new ChangeTrackingList<DimensionKey>();
         }
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace Azure.AI.MetricsAdvisor
         /// Filters the result by series. Only incidents detected in the time series groups specified will
         /// be returned.
         /// </summary>
-        public IList<DimensionKey> DimensionsToFilter { get; }
+        public IList<DimensionKey> DimensionsFilter { get; }
 
         /// <summary>
         /// If set, specifies the maximum limit of items returned in each page of results. Note:
@@ -55,7 +55,7 @@ namespace Azure.AI.MetricsAdvisor
         {
             DetectionIncidentFilterCondition filterCondition = new DetectionIncidentFilterCondition();
 
-            foreach (DimensionKey dimensionKey in DimensionsToFilter)
+            foreach (DimensionKey dimensionKey in DimensionsFilter)
             {
                 filterCondition.DimensionFilter.Add(dimensionKey.Clone());
             }
