@@ -26,8 +26,7 @@ namespace Azure.AI.MetricsAdvisor
         /// <exception cref="ArgumentException"><paramref name="subscriptionKey"/> or <paramref name="apiKey"/> is empty.</exception>
         public MetricsAdvisorKeyCredential(string subscriptionKey, string apiKey)
         {
-            UpdateSubscriptionKey(subscriptionKey);
-            UpdateApiKey(apiKey);
+            Update(subscriptionKey, apiKey);
         }
 
         internal string SubscriptionKey
@@ -43,28 +42,15 @@ namespace Azure.AI.MetricsAdvisor
         }
 
         /// <summary>
-        /// Updates the subscription key. This is intended to be used when you've regenerated
-        /// your subscription key and want to update long lived clients.
         /// </summary>
-        /// <param name="subscriptionKey">The subscription key to authenticate the service against.</param>
-        /// <exception cref="ArgumentNullException"><paramref name="subscriptionKey"/> is null.</exception>
-        /// <exception cref="ArgumentException"><paramref name="subscriptionKey"/> is empty.</exception>
-        public void UpdateSubscriptionKey(string subscriptionKey)
+        /// <param name="subscriptionKey"></param>
+        /// <param name="apiKey"></param>
+        public void Update(string subscriptionKey, string apiKey)
         {
             Argument.AssertNotNullOrEmpty(subscriptionKey, nameof(subscriptionKey));
-            SubscriptionKey = subscriptionKey;
-        }
-
-        /// <summary>
-        /// Updates the API key. This is intended to be used when you've regenerated your
-        /// API key and want to update long lived clients.
-        /// </summary>
-        /// <param name="apiKey">The API key to use to authenticate the user with the Metrics Advisor service. Used to identify administrators.</param>
-        /// <exception cref="ArgumentNullException"><paramref name="apiKey"/> is null.</exception>
-        /// <exception cref="ArgumentException"><paramref name="apiKey"/> is empty.</exception>
-        public void UpdateApiKey(string apiKey)
-        {
             Argument.AssertNotNullOrEmpty(apiKey, nameof(apiKey));
+
+            SubscriptionKey = subscriptionKey;
             ApiKey = apiKey;
         }
     }
