@@ -45,9 +45,48 @@ namespace Azure.AI.MetricsAdvisor.Models
         }
 
         /// <summary>
+        /// </summary>
+        public enum AuthenticationType
+        {
+            /// <summary>
+            /// </summary>
+            Basic,
+            /// <summary>
+            /// </summary>
+            ManagedIdentity,
+            /// <summary>
+            /// </summary>
+            SqlConnectionString,
+            /// <summary>
+            /// </summary>
+            ServicePrincipal,
+            /// <summary>
+            /// </summary>
+            ServicePrincipalInKeyVault
+        };
+
+        /// <summary>
+        /// </summary>
+        public AuthenticationType? Authentication { get; set; }
+
+        /// <summary>
+        /// </summary>
+        public string DatasourceCredentialId { get; set; }
+
+        /// <summary>
         /// The query to retrieve the data to be ingested.
         /// </summary>
-        public string Query { get; }
+        public string Query { get; set; }
+
+        /// <summary>
+        /// </summary>
+        /// <param name="connectionString"></param>
+        public void UpdateConnectionString(string connectionString)
+        {
+            Argument.AssertNotNullOrEmpty(connectionString, nameof(connectionString));
+
+            ConnectionString = connectionString;
+        }
 
         /// <summary>
         /// The connection string.

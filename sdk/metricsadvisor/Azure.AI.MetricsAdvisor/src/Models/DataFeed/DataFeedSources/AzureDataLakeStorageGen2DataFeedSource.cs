@@ -81,19 +81,45 @@ namespace Azure.AI.MetricsAdvisor.Models
         }
 
         /// <summary>
+        /// </summary>
+        public enum AuthenticationType
+        {
+            /// <summary>
+            /// </summary>
+            Basic,
+            /// <summary>
+            /// </summary>
+            SharedKeyCredential,
+            /// <summary>
+            /// </summary>
+            ServicePrincipal,
+            /// <summary>
+            /// </summary>
+            ServicePrincipalInKeyVault
+        };
+
+        /// <summary>
+        /// </summary>
+        public AuthenticationType? Authentication { get; set; }
+
+        /// <summary>
+        /// </summary>
+        public string DatasourceCredentialId { get; set; }
+
+        /// <summary>
         /// The name of the Storage Account.
         /// </summary>
-        public string AccountName { get; }
+        public string AccountName { get; set; }
 
         /// <summary>
         /// The name of the file system.
         /// </summary>
-        public string FileSystemName { get; }
+        public string FileSystemName { get; set; }
 
         /// <summary>
         /// The directory template.
         /// </summary>
-        public string DirectoryTemplate { get; }
+        public string DirectoryTemplate { get; set; }
 
         /// <summary>
         /// This is the file template of the Blob file. For example: X_%Y-%m-%d-%h-%M.json. The following parameters are supported:
@@ -120,7 +146,17 @@ namespace Azure.AI.MetricsAdvisor.Models
         /// </item>
         /// </list>
         /// </summary>
-        public string FileTemplate { get; }
+        public string FileTemplate { get; set; }
+
+        /// <summary>
+        /// </summary>
+        /// <param name="accountKey"></param>
+        public void UpdateAccountKey(string accountKey)
+        {
+            Argument.AssertNotNullOrEmpty(accountKey, nameof(accountKey));
+
+            AccountKey = accountKey;
+        }
 
         /// <summary>
         /// The Storage Account key.
