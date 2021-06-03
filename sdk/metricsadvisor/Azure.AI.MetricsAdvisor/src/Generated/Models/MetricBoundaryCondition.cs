@@ -43,7 +43,15 @@ namespace Azure.AI.MetricsAdvisor.Models
             Direction = direction;
             Type = type;
             CompanionMetricId = companionMetricId;
-            ShouldAlertIfDataPointMissing = triggerForMissing;
+            TriggerForMissing = triggerForMissing;
         }
+        /// <summary>
+        /// trigger alert when the corresponding point is missing in the other metric
+        /// 
+        /// 
+        /// 
+        /// should be specified only when using other metric to filter.
+        /// </summary>
+        public bool? TriggerForMissing { get; set; }
     }
 }

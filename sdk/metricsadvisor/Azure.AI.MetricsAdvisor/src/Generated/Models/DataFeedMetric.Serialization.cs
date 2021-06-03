@@ -5,6 +5,7 @@
 
 #nullable disable
 
+using System;
 using System.Text.Json;
 using Azure.Core;
 
@@ -16,23 +17,23 @@ namespace Azure.AI.MetricsAdvisor.Models
         {
             writer.WriteStartObject();
             writer.WritePropertyName("metricName");
-            writer.WriteStringValue(Name);
-            if (Optional.IsDefined(DisplayName))
+            writer.WriteStringValue(MetricName);
+            if (Optional.IsDefined(MetricDisplayName))
             {
                 writer.WritePropertyName("metricDisplayName");
-                writer.WriteStringValue(DisplayName);
+                writer.WriteStringValue(MetricDisplayName);
             }
-            if (Optional.IsDefined(Description))
+            if (Optional.IsDefined(MetricDescription))
             {
                 writer.WritePropertyName("metricDescription");
-                writer.WriteStringValue(Description);
+                writer.WriteStringValue(MetricDescription);
             }
             writer.WriteEndObject();
         }
 
         internal static DataFeedMetric DeserializeDataFeedMetric(JsonElement element)
         {
-            Optional<string> metricId = default;
+            Optional<Guid> metricId = default;
             string metricName = default;
             Optional<string> metricDisplayName = default;
             Optional<string> metricDescription = default;
@@ -40,7 +41,12 @@ namespace Azure.AI.MetricsAdvisor.Models
             {
                 if (property.NameEquals("metricId"))
                 {
-                    metricId = property.Value.GetString();
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        property.ThrowNonNullablePropertyIsNull();
+                        continue;
+                    }
+                    metricId = property.Value.GetGuid();
                     continue;
                 }
                 if (property.NameEquals("metricName"))
@@ -59,7 +65,7 @@ namespace Azure.AI.MetricsAdvisor.Models
                     continue;
                 }
             }
-            return new DataFeedMetric(metricId.Value, metricName, metricDisplayName.Value, metricDescription.Value);
+            return new DataFeedMetric(Optional.ToNullable(metricId), metricName, metricDisplayName.Value, metricDescription.Value);
         }
     }
 }

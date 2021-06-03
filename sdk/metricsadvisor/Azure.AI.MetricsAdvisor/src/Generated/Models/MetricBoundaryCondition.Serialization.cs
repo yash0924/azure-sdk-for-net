@@ -37,10 +37,10 @@ namespace Azure.AI.MetricsAdvisor.Models
                 writer.WritePropertyName("metricId");
                 writer.WriteStringValue(CompanionMetricId);
             }
-            if (Optional.IsDefined(ShouldAlertIfDataPointMissing))
+            if (Optional.IsDefined(TriggerForMissing))
             {
                 writer.WritePropertyName("triggerForMissing");
-                writer.WriteBooleanValue(ShouldAlertIfDataPointMissing.Value);
+                writer.WriteBooleanValue(TriggerForMissing.Value);
             }
             writer.WriteEndObject();
         }

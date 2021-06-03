@@ -18,12 +18,21 @@ namespace Azure.AI.MetricsAdvisor.Models
         /// <param name="metricName"> metric name. </param>
         /// <param name="metricDisplayName"> metric display name. </param>
         /// <param name="metricDescription"> metric description. </param>
-        internal DataFeedMetric(string metricId, string metricName, string metricDisplayName, string metricDescription)
+        internal DataFeedMetric(Guid? metricId, string metricName, string metricDisplayName, string metricDescription)
         {
-            Id = metricId;
-            Name = metricName;
-            DisplayName = metricDisplayName;
-            Description = metricDescription;
+            MetricId = metricId;
+            MetricName = metricName;
+            MetricDisplayName = metricDisplayName;
+            MetricDescription = metricDescription;
         }
+
+        /// <summary> metric id. </summary>
+        public Guid? MetricId { get; }
+        /// <summary> metric name. </summary>
+        public string MetricName { get; set; }
+        /// <summary> metric display name. </summary>
+        public string MetricDisplayName { get; set; }
+        /// <summary> metric description. </summary>
+        public string MetricDescription { get; set; }
     }
 }

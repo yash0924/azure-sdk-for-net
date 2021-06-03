@@ -16,11 +16,11 @@ namespace Azure.AI.MetricsAdvisor.Models
         {
             writer.WriteStartObject();
             writer.WritePropertyName("dimensionName");
-            writer.WriteStringValue(Name);
-            if (Optional.IsDefined(DisplayName))
+            writer.WriteStringValue(DimensionName);
+            if (Optional.IsDefined(DimensionDisplayName))
             {
                 writer.WritePropertyName("dimensionDisplayName");
-                writer.WriteStringValue(DisplayName);
+                writer.WriteStringValue(DimensionDisplayName);
             }
             writer.WriteEndObject();
         }
