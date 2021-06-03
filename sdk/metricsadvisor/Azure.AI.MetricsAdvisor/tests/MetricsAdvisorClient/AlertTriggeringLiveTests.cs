@@ -123,6 +123,7 @@ namespace Azure.AI.MetricsAdvisor.Tests
         [RecordedTest]
         [TestCase(true)]
         [TestCase(false)]
+        [Ignore("TODO")]
         public async Task GetIncidents(bool useTokenCredential)
         {
             MetricsAdvisorClient client = GetMetricsAdvisorClient(useTokenCredential);

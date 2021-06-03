@@ -11,6 +11,7 @@ using NUnit.Framework;
 
 namespace Azure.AI.MetricsAdvisor.Samples
 {
+    [Ignore("TODO")]
     public partial class MetricsAdvisorSamples : MetricsAdvisorTestEnvironment
     {
         [Test]
