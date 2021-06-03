@@ -31,7 +31,7 @@ namespace Azure.AI.MetricsAdvisor.Models
         /// The key that uniquely identifies the time series to which these conditions apply within a metric.
         /// Every dimension contained in the associated <see cref="DataFeed"/> must be assigned a value.
         /// </summary>
-        public DimensionKey SeriesKey { get; }
+        public DimensionKey SeriesKey { get; set; }
 
         /// <summary>
         /// Used by CodeGen during serialization.

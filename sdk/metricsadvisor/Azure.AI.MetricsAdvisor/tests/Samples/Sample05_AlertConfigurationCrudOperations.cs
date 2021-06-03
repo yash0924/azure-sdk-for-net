@@ -41,7 +41,7 @@ namespace Azure.AI.MetricsAdvisor.Samples
 
             alertConfiguration.IdsOfHooksToAlert.Add(hookId);
 
-            var scope = MetricAnomalyAlertScope.GetScopeForWholeSeries();
+            var scope = MetricAnomalyAlertScope.CreateScopeForWholeSeries();
             var metricAlertConfiguration = new MetricAnomalyAlertConfiguration(anomalyDetectionConfigurationId, scope);
 
             alertConfiguration.MetricAlertConfigurations.Add(metricAlertConfiguration);

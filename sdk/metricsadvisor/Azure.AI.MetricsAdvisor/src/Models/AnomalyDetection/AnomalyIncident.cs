@@ -25,7 +25,7 @@ namespace Azure.AI.MetricsAdvisor.Models
             Id = id;
             StartTime = startTime;
             LastTime = endTime;
-            DimensionKey = new DimensionKey(rootNode.Dimension);
+            RootDimensionKey = new DimensionKey(rootNode.Dimension);
             Severity = property.MaxSeverity;
             Status = property.IncidentStatus;
             ValueOfRootNode = property.ValueOfRootNode;
@@ -58,7 +58,7 @@ namespace Azure.AI.MetricsAdvisor.Models
         /// <see cref="AnomalyIncident"/> has been detected. Every dimension contained in the associated
         /// <see cref="DataFeed"/> has been assigned a value.
         /// </summary>
-        public DimensionKey DimensionKey { get; }
+        public DimensionKey RootDimensionKey { get; }
 
         /// <summary>
         /// Corresponds to the time, in UTC, when the first associated <see cref="DataPointAnomaly"/> occurred.

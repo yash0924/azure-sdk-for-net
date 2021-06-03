@@ -43,7 +43,7 @@ namespace Azure.AI.MetricsAdvisor.Models
         /// metric as the scope.
         /// </summary>
         /// <returns>A new <see cref="MetricAnomalyAlertScope"/> instance.</returns>
-        public static MetricAnomalyAlertScope GetScopeForWholeSeries() =>
+        public static MetricAnomalyAlertScope CreateScopeForWholeSeries() =>
             new MetricAnomalyAlertScope(MetricAnomalyAlertScopeType.WholeSeries, seriesGroupInScope: default, topNGroupInScope: default);
 
         /// <summary>
@@ -53,7 +53,7 @@ namespace Azure.AI.MetricsAdvisor.Models
         /// A subset of the possible dimensions of the associated data feed must be set.</param>
         /// <returns>A new <see cref="MetricAnomalyAlertScope"/> instance.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="seriesGroupKey"/> is null.</exception>
-        public static MetricAnomalyAlertScope GetScopeForSeriesGroup(DimensionKey seriesGroupKey)
+        public static MetricAnomalyAlertScope CreateScopeForSeriesGroup(DimensionKey seriesGroupKey)
         {
             Argument.AssertNotNull(seriesGroupKey, nameof(seriesGroupKey));
 
@@ -61,15 +61,14 @@ namespace Azure.AI.MetricsAdvisor.Models
         }
 
         /// <summary>
-        /// Creates a <see cref="MetricAnomalyAlertScope"/> instance in which alerts will only be triggered for anomalies in the top N series.
         /// </summary>
-        /// <param name="topNGroup">Specify the number of timestamps to take into account, and how many anomalies must be in them to send the alert.</param>
-        /// <exception cref="ArgumentNullException"><paramref name="topNGroup"/> is null.</exception>
-        public static MetricAnomalyAlertScope GetScopeForTopNGroup(TopNGroupScope topNGroup)
+        /// <param name="top"></param>
+        /// <param name="period"></param>
+        /// <param name="minimumTopCount"></param>
+        /// <returns></returns>
+        public static MetricAnomalyAlertScope CreateScopeForTopNGroup(int top, int period, int minimumTopCount)
         {
-            Argument.AssertNotNull(topNGroup, nameof(topNGroup));
-
-            return new MetricAnomalyAlertScope(MetricAnomalyAlertScopeType.TopN, seriesGroupInScope: default, topNGroup);
+            return new MetricAnomalyAlertScope(MetricAnomalyAlertScopeType.TopN, seriesGroupInScope: default, new TopNGroupScope(top, period, minimumTopCount));
         }
     }
 }

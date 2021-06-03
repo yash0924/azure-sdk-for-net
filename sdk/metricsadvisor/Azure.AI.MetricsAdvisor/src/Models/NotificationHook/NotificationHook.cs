@@ -16,7 +16,7 @@ namespace Azure.AI.MetricsAdvisor.Models
     {
         internal NotificationHook()
         {
-            Administrators = new ChangeTrackingList<string>();
+            AdministratorsEmails = new ChangeTrackingList<string>();
         }
 
         internal NotificationHook(HookType hookType, string id, string name, string description, string internalExternalLink, IReadOnlyList<string> administrators)
@@ -26,7 +26,7 @@ namespace Azure.AI.MetricsAdvisor.Models
             Name = name;
             Description = description;
             ExternalLink = string.IsNullOrEmpty(internalExternalLink) ? null : new Uri(internalExternalLink);
-            Administrators = administrators;
+            AdministratorsEmails = administrators;
         }
 
         /// <summary>
@@ -45,7 +45,7 @@ namespace Azure.AI.MetricsAdvisor.Models
         /// The list of user e-mails with administrative rights to manage this hook.
         /// </summary>
         [CodeGenMember("Admins")]
-        public IReadOnlyList<string> Administrators { get; }
+        public IReadOnlyList<string> AdministratorsEmails { get; }
 
         /// <summary> The hook type. </summary>
         internal HookType HookType { get; set; }
@@ -67,7 +67,7 @@ namespace Azure.AI.MetricsAdvisor.Models
             if (hook is EmailNotificationHook emailHook)
             {
                 var h = emailHook;
-                var patch = new EmailHookInfoPatch() { HookName = h.Name, Description = h.Description, ExternalLink = h.ExternalLink?.AbsoluteUri, HookParameter = new(), Admins = h.Administrators };
+                var patch = new EmailHookInfoPatch() { HookName = h.Name, Description = h.Description, ExternalLink = h.ExternalLink?.AbsoluteUri, HookParameter = new(), Admins = h.AdministratorsEmails };
 
                 foreach (var item in h.HookParameter.ToList)
                 {
@@ -82,7 +82,7 @@ namespace Azure.AI.MetricsAdvisor.Models
                 var patch = new WebhookHookInfoPatch() { HookName = h.Name, Description = h.Description,
                     ExternalLink = h.ExternalLink?.AbsoluteUri, HookParameter = { CertificateKey = h.CertificateKey,
                         CertificatePassword = h.CertificatePassword, Endpoint = h.Endpoint.AbsoluteUri,
-                        Password = h.Password, Username = h.Username }, Admins = h.Administrators };
+                        Password = h.Password, Username = h.Username }, Admins = h.AdministratorsEmails };
 
                 foreach (var item in h.HookParameter.Headers)
                 {

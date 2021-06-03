@@ -23,15 +23,15 @@ namespace Azure.AI.MetricsAdvisor.Models
         internal DataFeedRollupSettings(DataFeedDetail dataFeedDetail)
         {
             AutoRollupGroupByColumnNames = dataFeedDetail.RollUpColumns;
-            AlreadyRollupIdentificationValue = dataFeedDetail.AllUpIdentification;
+            AlreadyRolledUpIdentificationValue = dataFeedDetail.AllUpIdentification;
             RollupType = dataFeedDetail.NeedRollup;
-            RollupMethod = dataFeedDetail.RollUpMethod;
+            DataFeedAutoRollupMethod = dataFeedDetail.RollUpMethod;
         }
 
         /// <summary>
         /// The value a dimension assumes when it represents a rolled-up value in the original data source.
         /// </summary>
-        public string AlreadyRollupIdentificationValue { get; set; }
+        public string AlreadyRolledUpIdentificationValue { get; set; }
 
         /// <summary>
         /// The strategy used by this <see cref="DataFeed"/> when rolling-up the ingested data before detecting
@@ -41,9 +41,9 @@ namespace Azure.AI.MetricsAdvisor.Models
 
         /// <summary>
         /// The roll-up method the service should apply to the ingested data for anomaly detection. This property
-        /// must be set if <see cref="RollupType"/> is <see cref="DataFeedRollupType.NeedRollup"/>.
+        /// must be set if <see cref="RollupType"/> is <see cref="DataFeedRollupType.RollupNeeded"/>.
         /// </summary>
-        public DataFeedAutoRollupMethod? RollupMethod { get; set; }
+        public DataFeedAutoRollupMethod? DataFeedAutoRollupMethod { get; set; }
 
         /// <summary>
         /// Defines the column names to which these <see cref="DataFeedRollupSettings"/> will apply.

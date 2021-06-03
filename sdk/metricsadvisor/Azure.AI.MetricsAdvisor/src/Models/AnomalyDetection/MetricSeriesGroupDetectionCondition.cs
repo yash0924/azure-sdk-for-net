@@ -26,6 +26,6 @@ namespace Azure.AI.MetricsAdvisor.Models
         /// A subset of the possible dimensions of the associated data feed must be set.
         /// </summary>
         [CodeGenMember("Group")]
-        public DimensionKey SeriesGroupKey { get; }
+        public DimensionKey SeriesGroupKey { get; set; }
     }
 }
