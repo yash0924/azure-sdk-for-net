@@ -57,7 +57,8 @@ namespace Azure.AI.MetricsAdvisor.Models
         /// </summary>
         public bool? TriggerForMissing { get; set; }
 
-        // TODO: expose it as part of 1.0.0-beta.4
-        internal ValueType? Type { get; set; }
+        /// <summary>
+        /// </summary>
+        public ValueType? Type { get; set; }
     }
 }
