@@ -67,24 +67,24 @@ namespace Azure.AI.MetricsAdvisor
         /// <summary> Initializes new instance of IncidentRootCause class. </summary>
         /// <param name="seriesKey"> . </param>
         /// <param name="paths"> drilling down path from query anomaly to root cause. </param>
-        /// <param name="score"> score of the root cause. </param>
+        /// <param name="contributionScore"> score of the root cause. </param>
         /// <param name="description"> description of the root cause. </param>
         /// <returns> A new <see cref="Models.IncidentRootCause"/> instance for mocking. </returns>
-        public static IncidentRootCause IncidentRootCause(DimensionKey seriesKey = default, IReadOnlyList<string> paths = default, double score = default, string description = default)
+        public static IncidentRootCause IncidentRootCause(DimensionKey seriesKey = default, IReadOnlyList<string> paths = default, double contributionScore = default, string description = default)
         {
             paths ??= new List<string>();
-            return new IncidentRootCause(seriesKey, paths, score, description);
+            return new IncidentRootCause(seriesKey, paths, contributionScore, description);
         }
 
         /// <summary> Initializes new instance of DataFeedMetric class. </summary>
-        /// <param name="metricId"> metric id. </param>
-        /// <param name="metricName"> metric name. </param>
-        /// <param name="metricDisplayName"> metric display name. </param>
-        /// <param name="metricDescription"> metric description. </param>
+        /// <param name="id"> metric id. </param>
+        /// <param name="name"> metric name. </param>
+        /// <param name="displayName"> metric display name. </param>
+        /// <param name="description"> metric description. </param>
         /// <returns> A new <see cref="Models.DataFeedMetric"/> instance for mocking. </returns>
-        public static DataFeedMetric DataFeedMetric(Guid? metricId = default, string metricName = default, string metricDisplayName = default, string metricDescription = default)
+        public static DataFeedMetric DataFeedMetric(string id = default, string name = default, string displayName = default, string description = default)
         {
-            return new DataFeedMetric(metricId, metricName, metricDisplayName, metricDescription);
+            return new DataFeedMetric(id, name, displayName, description);
         }
 
         /// <summary> Initializes new instance of DataFeedIngestionStatus class. </summary>

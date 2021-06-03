@@ -14,17 +14,12 @@ namespace Azure.AI.MetricsAdvisor.Models
     {
 
         /// <summary> Initializes a new instance of DataFeedDimension. </summary>
-        /// <param name="dimensionName"> dimension name. </param>
-        /// <param name="dimensionDisplayName"> dimension display name. </param>
-        internal DataFeedDimension(string dimensionName, string dimensionDisplayName)
+        /// <param name="name"> dimension name. </param>
+        /// <param name="displayName"> dimension display name. </param>
+        internal DataFeedDimension(string name, string displayName)
         {
-            DimensionName = dimensionName;
-            DimensionDisplayName = dimensionDisplayName;
+            Name = name;
+            DisplayName = displayName;
         }
-
-        /// <summary> dimension name. </summary>
-        public string DimensionName { get; set; }
-        /// <summary> dimension display name. </summary>
-        public string DimensionDisplayName { get; set; }
     }
 }

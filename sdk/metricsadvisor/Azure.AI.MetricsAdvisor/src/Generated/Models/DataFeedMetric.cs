@@ -14,25 +14,16 @@ namespace Azure.AI.MetricsAdvisor.Models
     {
 
         /// <summary> Initializes a new instance of DataFeedMetric. </summary>
-        /// <param name="metricId"> metric id. </param>
-        /// <param name="metricName"> metric name. </param>
-        /// <param name="metricDisplayName"> metric display name. </param>
-        /// <param name="metricDescription"> metric description. </param>
-        internal DataFeedMetric(Guid? metricId, string metricName, string metricDisplayName, string metricDescription)
+        /// <param name="id"> metric id. </param>
+        /// <param name="name"> metric name. </param>
+        /// <param name="displayName"> metric display name. </param>
+        /// <param name="description"> metric description. </param>
+        internal DataFeedMetric(string id, string name, string displayName, string description)
         {
-            MetricId = metricId;
-            MetricName = metricName;
-            MetricDisplayName = metricDisplayName;
-            MetricDescription = metricDescription;
+            Id = id;
+            Name = name;
+            DisplayName = displayName;
+            Description = description;
         }
-
-        /// <summary> metric id. </summary>
-        public Guid? MetricId { get; }
-        /// <summary> metric name. </summary>
-        public string MetricName { get; set; }
-        /// <summary> metric display name. </summary>
-        public string MetricDisplayName { get; set; }
-        /// <summary> metric description. </summary>
-        public string MetricDescription { get; set; }
     }
 }

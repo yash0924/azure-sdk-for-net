@@ -17,10 +17,10 @@ namespace Azure.AI.MetricsAdvisor.Models
         /// <summary> Initializes a new instance of IncidentRootCause. </summary>
         /// <param name="seriesKey"> . </param>
         /// <param name="paths"> drilling down path from query anomaly to root cause. </param>
-        /// <param name="score"> score of the root cause. </param>
+        /// <param name="contributionScore"> score of the root cause. </param>
         /// <param name="description"> description of the root cause. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="seriesKey"/>, <paramref name="paths"/>, or <paramref name="description"/> is null. </exception>
-        internal IncidentRootCause(DimensionKey seriesKey, IEnumerable<string> paths, double score, string description)
+        internal IncidentRootCause(DimensionKey seriesKey, IEnumerable<string> paths, double contributionScore, string description)
         {
             if (seriesKey == null)
             {
@@ -37,23 +37,21 @@ namespace Azure.AI.MetricsAdvisor.Models
 
             SeriesKey = seriesKey;
             Paths = paths.ToList();
-            Score = score;
+            ContributionScore = contributionScore;
             Description = description;
         }
 
         /// <summary> Initializes a new instance of IncidentRootCause. </summary>
         /// <param name="seriesKey"> . </param>
         /// <param name="paths"> drilling down path from query anomaly to root cause. </param>
-        /// <param name="score"> score of the root cause. </param>
+        /// <param name="contributionScore"> score of the root cause. </param>
         /// <param name="description"> description of the root cause. </param>
-        internal IncidentRootCause(DimensionKey seriesKey, IReadOnlyList<string> paths, double score, string description)
+        internal IncidentRootCause(DimensionKey seriesKey, IReadOnlyList<string> paths, double contributionScore, string description)
         {
             SeriesKey = seriesKey;
             Paths = paths;
-            Score = score;
+            ContributionScore = contributionScore;
             Description = description;
         }
-        /// <summary> score of the root cause. </summary>
-        public double Score { get; }
     }
 }

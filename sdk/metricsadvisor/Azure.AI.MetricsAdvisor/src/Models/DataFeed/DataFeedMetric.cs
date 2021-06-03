@@ -30,22 +30,26 @@ namespace Azure.AI.MetricsAdvisor.Models
         /// <summary>
         /// The unique identifier of this <see cref="DataFeedMetric"/>. Set by the service.
         /// </summary>
+        [CodeGenMember("MetricId")]
         public string Id { get; }
 
         /// <summary>
         /// The name of the data source's column with numeric values to be used as a metric. Values
         /// of this metric will be read only from the specified column.
         /// </summary>
+        [CodeGenMember("MetricName")]
         public string Name { get; }
 
         /// <summary>
         /// The name to be displayed on the web portal instead of the original column name.
         /// </summary>
+        [CodeGenMember("MetricDisplayName")]
         public string DisplayName { get; set; }
 
         /// <summary>
         /// A description of what the values in this <see cref="DataFeedMetric"/> represent.
         /// </summary>
+        [CodeGenMember("MetricDescription")]
         public string Description { get; set; }
     }
 }

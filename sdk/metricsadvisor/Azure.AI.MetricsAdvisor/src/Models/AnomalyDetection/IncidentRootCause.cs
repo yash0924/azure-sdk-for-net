@@ -27,6 +27,7 @@ namespace Azure.AI.MetricsAdvisor.Models
         /// <summary>
         /// The score assigned to the root cause suggestion.
         /// </summary>
+        [CodeGenMember("Score")]
         public double ContributionScore { get; }
 
         /// <summary>

@@ -30,11 +30,13 @@ namespace Azure.AI.MetricsAdvisor.Models
         /// The name of the data source's column to be used as a dimension. Values of
         /// this dimension will be read only from the specified column.
         /// </summary>
+        [CodeGenMember("DimensionName")]
         public string Name { get; }
 
         /// <summary>
         /// The name to be displayed on the web portal instead of the original column name.
         /// </summary>
+        [CodeGenMember("DimensionDisplayName")]
         public string DisplayName { get; set; }
     }
 }
