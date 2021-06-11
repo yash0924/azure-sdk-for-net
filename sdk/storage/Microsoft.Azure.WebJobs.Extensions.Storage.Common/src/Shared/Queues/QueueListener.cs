@@ -51,6 +51,7 @@ namespace Microsoft.Azure.WebJobs.Extensions.Storage.Common.Listeners
         private bool _foundMessageSinceLastDelay;
         private bool _disposed;
         private TaskCompletionSource<object> _stopWaitingTaskSource;
+        private ConcurrencyManager _concurrencyManager;
 
         // for mock testing only
         internal QueueListener()
@@ -66,6 +67,7 @@ namespace Microsoft.Azure.WebJobs.Extensions.Storage.Common.Listeners
             QueuesOptions queueOptions,
             QueueProcessor queueProcessor,
             FunctionDescriptor functionDescriptor,
+            ConcurrencyManager concurrencyManager,
             string functionId = null,
             TimeSpan? maxPollingInterval = null)
         {
@@ -77,6 +79,11 @@ namespace Microsoft.Azure.WebJobs.Extensions.Storage.Common.Listeners
             if (queueProcessor == null)
             {
                 throw new ArgumentNullException(nameof(queueProcessor));
+            }
+
+            if (concurrencyManager == null)
+            {
+                throw new ArgumentNullException(nameof(concurrencyManager));
             }
 
             if (loggerFactory == null)
@@ -128,6 +135,8 @@ namespace Microsoft.Azure.WebJobs.Extensions.Storage.Common.Listeners
 
             _scaleMonitorDescriptor = new ScaleMonitorDescriptor($"{_functionId}-QueueTrigger-{_queue.Name}".ToLower(CultureInfo.InvariantCulture));
             _shutdownCancellationTokenSource = new CancellationTokenSource();
+
+            _concurrencyManager = concurrencyManager;
         }
 
         // for testing
@@ -199,9 +208,24 @@ namespace Microsoft.Azure.WebJobs.Extensions.Storage.Common.Listeners
 
                     if (_queueExists.Value)
                     {
+                        int numMessagesToReceive = _queueProcessor.QueuesOptions.BatchSize;
+
+                        if (_concurrencyManager.Enabled)
+                        {
+                            // determine the number of messages to pull, based on the current degree of parallelism
+                            var concurrencyStatus = _concurrencyManager.GetStatus(_functionId);
+                            numMessagesToReceive = Math.Min(concurrencyStatus.AvailableInvocationCount, 32);
+                            if (numMessagesToReceive == 0)
+                            {
+                                // if we're not healthy or we're at our limit, we'll wait
+                                // a bit before checking again
+                                return CreateDelayResult(concurrencyStatus.NextStatusDelay);
+                            }
+                        }
+
                         sw = Stopwatch.StartNew();
 
-                        Response<QueueMessage[]> response = await _queue.ReceiveMessagesAsync(_queueProcessor.QueuesOptions.BatchSize, _visibilityTimeout, cancellationToken).ConfigureAwait(false);
+                        Response<QueueMessage[]> response = await _queue.ReceiveMessagesAsync(numMessagesToReceive, _visibilityTimeout, cancellationToken).ConfigureAwait(false);
                         batch = response.Value;
 
                         int count = batch?.Length ?? -1;
@@ -267,7 +291,18 @@ namespace Microsoft.Azure.WebJobs.Extensions.Storage.Common.Listeners
             }
 
             _foundMessageSinceLastDelay = true;
-            return CreateSucceededResult();
+
+            if (_concurrencyManager.Enabled)
+            {
+                // we want the next invocation to run right away
+                // to ensure we quickly fetch to our max degree of concurrency (we know there were messages),
+                // when host is unhealthy
+                return CreateDelayResult(TimeSpan.Zero);
+            }
+            else
+            {
+                return CreateSucceededResult();
+            }
         }
 
         public void Notify()
@@ -295,6 +330,13 @@ namespace Microsoft.Azure.WebJobs.Extensions.Storage.Common.Listeners
         private TaskSeriesCommandResult CreateBackoffResult()
         {
             return new TaskSeriesCommandResult(wait: CreateDelayWithNotificationTask());
+        }
+
+        private TaskSeriesCommandResult CreateDelayResult(TimeSpan delay)
+        {
+            Task aggregateTask = Task.WhenAny(_stopWaitingTaskSource.Task, Task.Delay(delay));
+
+            return new TaskSeriesCommandResult(wait: aggregateTask);
         }
 
         private TaskSeriesCommandResult CreateSucceededResult()

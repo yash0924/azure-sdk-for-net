@@ -1,7 +1,7 @@
 # Release History
 
 ## 5.0.0-beta.5 (Unreleased)
-
+- Adding Dynamic Concurrency support.
 
 ## 5.0.0-beta.4 (2021-05-18)
 - Fixed bug where custom implementations of `IQueueProcessorFactory` could overwrite each other settings.
